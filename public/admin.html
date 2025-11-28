@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panel de Administración</title>
+<style>
+body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:0;}
+.container{max-width:700px;margin:40px auto;padding:20px;background:#fff;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
+h1{text-align:center;margin-bottom:12px;}
+.hidden{display:none;}
+.field{margin-bottom:12px;}
+label{display:block;margin-bottom:6px;font-weight:600;}
+input, select{width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;font-size:14px}
+.btn{padding:12px 16px;border:none;border-radius:6px;background:#0a6bff;color:white;cursor:pointer;font-weight:700;}
+#status{margin-bottom:16px;font-weight:bold;text-align:center;padding:8px;border-radius:6px;}
+.success{color:#064e3b;background:#bbf7d0}
+.error{color:#7f1d1d;background:#fecaca}
+.small{font-size:13px;color:#6b7280;margin-top:6px}
+.row{display:flex;gap:12px}
+.row .field{flex:1}
+@media(max-width:600px){.row{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Panel de Administración</h1>
+  <div id="status" class="error">Verificando permisos...</div>
+
+  <form id="productForm" class="hidden" autocomplete="off">
+    <div class="field">
+      <label for="categoria">Categoría *</label>
+      <input type="text" id="categoria" placeholder="Ej: Dulces">
+    </div>
+
+    <div class="field">
+      <label for="nombre">Nombre *</label>
+      <input type="text" id="nombre" placeholder="Nombre del producto">
+    </div>
+
+    <div class="field">
+      <label for="imagen">Imagen (URL) *</label>
+      <input type="url" id="imagen" placeholder="https://...">
+      <div class="small">URL válida preferible (http/https). Si no tienes, pon una imagen genérica accesible por URL.</div>
+    </div>
+
+    <div class="field">
+      <label for="descripcion">Descripción *</label>
+      <input type="text" id="descripcion" placeholder="Descripción del producto">
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="stock">Stock *</label>
+        <input type="number" id="stock" value="0" min="0">
+      </div>
+
+      <div class="field">
+        <label for="precio">Precio *</label>
+        <input type="number" id="precio" placeholder="Ej: 25" min="0" step="0.01">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="pais">País *</label>
+      <select id="pais">
+        <option value="">Selecciona país</option>
+        <option value="Bélgica">Bélgica 🇧🇪</option>
+        <option value="Japón">Japón 🇯🇵</option>
+        <option value="Estados Unidos">Estados Unidos 🇺🇸</option>
+        <option value="Francia">Francia 🇫🇷</option>
+        <option value="México">México 🇲🇽</option>
+        <option value="Reino Unido">Reino Unido 🇬🇧</option>
+        <option value="Suiza">Suiza 🇨🇭</option>
+        <option value="España">España 🇪🇸</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="cantidad">Cantidad</label>
+        <input type="text" id="cantidad" placeholder="Ej: 1 paquete">
+      </div>
+
+      <div class="field">
+        <label for="sabor">Sabor</label>
+        <input type="text" id="sabor" placeholder="Ej: Chocolate">
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:12px">
+      <button type="submit" class="btn">Agregar Producto</button>
+    </div>
+  </form>
+</div>
+
+<script>
+// ---------- Permisos ----------
+const statusEl = document.getElementById('status');
+const form = document.getElementById('productForm');
+
+let currentUser = null;
+try { currentUser = JSON.parse(localStorage.getItem('user')); } catch(e){ currentUser = null; }
+
+// Usa exactamente el correo que guardas en users para admin:
+const adminEmail = "langosta@admin.com";
+
+function denyRedirect() {
+  statusEl.className = 'error';
+  statusEl.textContent = "Error: No tienes permisos. Redirigiendo...";
+  setTimeout(()=> window.location.href = 'index.html', 1600);
+}
+
+if (!currentUser || !currentUser.email || currentUser.email.toLowerCase() !== adminEmail) {
+  denyRedirect();
+} else {
+  statusEl.className = 'success';
+  statusEl.textContent = "Bienvenido Administrador — completa el formulario";
+  form.classList.remove('hidden');
+}
+
+// ---------- Envío ----------
+function setStatus(msg, ok=false) {
+  statusEl.className = ok ? 'success' : 'error';
+  statusEl.textContent = msg;
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  setStatus('Validando datos...', true);
+
+  const categoria = document.getElementById('categoria').value.trim();
+  const nombre = document.getElementById('nombre').value.trim();
+  const imagen = document.getElementById('imagen').value.trim();
+  const descripcion = document.getElementById('descripcion').value.trim();
+  const stockRaw = document.getElementById('stock').value;
+  const precioRaw = document.getElementById('precio').value;
+  const pais = document.getElementById('pais').value;
+  const cantidad = document.getElementById('cantidad').value.trim();
+  const sabor = document.getElementById('sabor').value.trim();
+
+  // validación local
+  if (!categoria || !nombre || !imagen || !descripcion || !pais) {
+    setStatus('Faltan datos obligatorios: categoría, nombre, imagen, descripción o país.', false);
+    return;
+  }
+
+  const stock = Number(stockRaw);
+  const precio = Number(precioRaw);
+
+  if (!Number.isFinite(stock) || stock < 0) {
+    setStatus('Stock inválido. Debe ser número >= 0.', false);
+    return;
+  }
+  if (!Number.isFinite(precio) || precio < 0) {
+    setStatus('Precio inválido. Debe ser número >= 0.', false);
+    return;
+  }
+
+  const payload = {
+    categoria, nombre, imagen, descripcion,
+    stock: Math.floor(stock),
+    pais,
+    cantidad: cantidad || null,
+    sabor: sabor || null,
+    precio: Number(precio.toFixed(2))
+  };
+
+  console.log("ENVIANDO addProducto payload:", payload);
+
+  setStatus('Enviando producto al servidor...', true);
+
+  try {
+    const res = await fetch('/.netlify/functions/addProducto', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json().catch(()=>null);
+
+    if (!res.ok) {
+      const msg = data && data.message ? data.message : `Error servidor (${res.status})`;
+      setStatus(`Error: ${msg}`, false);
+      console.error("Respuesta addProducto (no ok):", res.status, data);
+      return;
+    }
+
+    if (data && data.success) {
+      setStatus('Producto agregado con éxito ✅', true);
+      form.reset();
+    } else {
+      const msg = data && data.message ? data.message : 'Respuesta inesperada del servidor';
+      setStatus(`Error: ${msg}`, false);
+      console.error("Respuesta addProducto:", data);
+    }
+
+  } catch (err) {
+    console.error("ERROR AL ENVIAR addProducto:", err);
+    setStatus('Error de conexión al servidor', false);
+  }
+});
+</script>
+
+</body>
+</html>

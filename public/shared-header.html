@@ -1,0 +1,258 @@
+<!-- Header Compartido -->
+<header class="header">
+  <div class="logo" onclick="window.location.href='index.html'">
+    <img src="img/logo.png" alt="logo">
+    <strong>CandyyWorld</strong>
+  </div>
+  
+  <div class="search-bar">
+    <div class="field">
+      <input type="text" id="searchInput">
+      <label for="searchInput">¿Qué estás buscando?</label>
+    </div>
+    <div class="search-dropdown" id="searchDropdown">
+      <div class="search-category">
+        <h4>Categorías</h4>
+        <div id="categoryOptions"></div>
+      </div>
+      <div class="search-category">
+        <h4>Sabores</h4>
+        <div id="saborOptions"></div>
+      </div>
+    </div>
+  </div>
+  
+  <nav class="nav">
+    <button id="userBtn" class="btn-icon icon-only" aria-label="Usuario">
+      <img src="img/person.png" alt="Usuario">
+    </button>
+    <button id="favoritosBtn" class="btn-icon" style="position:relative">
+       ❤️ Favoritos
+    </button>
+    <button id="cartBtn" class="btn-icon" style="position:relative">
+       🛒 Carrito
+      <span id="cartBadge" class="cart-badge hidden">0</span>
+    </button>
+  </nav>
+</header>
+
+<!-- Modales Compartidos -->
+
+<!-- LOGIN MODAL -->
+<div id="loginModal" class="modal-back">
+  <div class="modal">
+    <button class="close-btn" id="closeLoginModal">&times;</button>
+    <h3>Iniciar sesión</h3>
+    <div id="loginMsg" class="muted"></div>
+    <form id="loginForm">
+      <div class="field"><input id="loginEmail" type="email" required><label for="loginEmail">Correo</label></div>
+      <div class="field"><input id="loginPassword" type="password" required><label for="loginPassword">Contraseña</label></div>
+      <div class="field"><button class="btn" type="submit">Entrar</button></div>
+    </form>
+    <div class="switch">¿No tienes cuenta? <button id="toRegister">Crear cuenta</button></div>
+  </div>
+</div>
+
+<!-- REGISTER MODAL -->
+<div id="registerModal" class="modal-back">
+  <div class="modal">
+    <button class="close-btn" id="closeRegisterModal">&times;</button>
+    <h3>Crear cuenta</h3>
+    <div id="regMsg" class="muted"></div>
+    <form id="registerForm">
+      <div class="field"><input id="regName" type="text" required><label for="regName">Nombre completo</label></div>
+      <div class="field"><input id="regEmail" type="email" required><label for="regEmail">Correo</label></div>
+      <div class="field"><input id="regPassword" type="password" required><label for="regPassword">Contraseña</label></div>
+      <div class="field"><input id="regConfirmPassword" type="password" required><label for="regConfirmPassword">Repetir Contraseña</label></div>
+      <div class="field"><input id="regBirth" type="date" required><label for="regBirth">Fecha de nacimiento</label></div>
+      <div class="field"><button class="btn" type="submit">Crear cuenta</button></div>
+    </form>
+    <div class="switch">¿Ya tienes cuenta? <button id="toLogin">Iniciar sesión</button></div>
+  </div>
+</div>
+
+<!-- PERFIL MODAL -->
+<div id="profileModal" class="modal-back profile-modal">
+  <div class="modal" style="max-width:600px;max-height:85vh;overflow-y:auto">
+    <button class="close-btn" id="closeProfileModal">&times;</button>
+    <h3>Mi Perfil</h3>
+    
+    <!-- Pestañas -->
+    <div style="display:flex;gap:10px;margin-bottom:20px;border-bottom:2px solid #f0f0f0">
+      <button class="profile-tab active" data-tab="info" style="flex:1;padding:12px;border:none;background:transparent;cursor:pointer;font-weight:600;color:#666;border-bottom:3px solid transparent;transition:0.2s">
+        👤 Información
+      </button>
+      <button class="profile-tab" data-tab="pedidos" style="flex:1;padding:12px;border:none;background:transparent;cursor:pointer;font-weight:600;color:#666;border-bottom:3px solid transparent;transition:0.2s">
+        📦 Pedidos
+      </button>
+    </div>
+    
+    <!-- Tab: Información -->
+    <div id="tabInfo" class="profile-tab-content">
+      <div class="info">Nombre: <span id="userName"></span></div>
+      <div class="info">Correo: <span id="userEmail"></span></div>
+      <div class="info">Fecha de nacimiento: <span id="userBirth"></span></div>
+      <div class="info highlight">Pedidos completados: <span id="userPedidos"></span></div>
+      <div class="info" style="background:#E8F5E9;padding:12px;border-radius:8px;margin-top:12px">
+        <span style="color:#2E7D32;font-weight:600;font-size:16px">⭐ Puntos: <span id="userPuntos">0</span></span>
+        <br>
+        <small style="color:#666;margin-top:6px;display:block">Descuento disponible: <span id="userDescuento" style="font-weight:600;color:#FF9EB4;font-size:14px">0%</span></small>
+      </div>
+    </div>
+    
+    <!-- Tab: Pedidos -->
+    <div id="tabPedidos" class="profile-tab-content" style="display:none">
+      <div id="pedidosContainer">
+        <div id="pedidosList"></div>
+      </div>
+    </div>
+    
+    <!-- Botones siempre visibles -->
+    <div style="margin-top:24px;padding-top:20px;border-top:2px solid #f0f0f0">
+      <div class="field">
+        <button class="btn ghost" id="openChangePass" style="width:100%">🔒 Cambiar contraseña</button>
+      </div>
+      <div class="field">
+        <button class="btn logout" id="logoutBtn" style="width:100%">🚪 Cerrar sesión</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CAMBIAR CONTRASEÑA MODAL -->
+<div id="changePassModal" class="modal-back">
+  <div class="modal">
+    <button class="close-btn" id="closeChangePass">&times;</button>
+    <h3>Cambiar contraseña</h3>
+    <div class="field"><input id="currentPassword" type="password"><label for="currentPassword">Contraseña actual</label></div>
+    <div class="field"><input id="newPassword" type="password"><label for="newPassword">Nueva contraseña</label></div>
+    <div class="btn-group">
+      <button class="btn" id="updatePass">Actualizar</button>
+      <button class="btn cancel" id="cancelPass">Cancelar</button>
+    </div>
+    <div id="passMsg" class="muted"></div>
+  </div>
+</div>
+
+<!-- CONFIRMAR CERRAR SESION -->
+<div id="logoutConfirmModal" class="modal-back">
+  <div class="modal">
+    <h3>Confirmar</h3>
+    <p>¿Deseas cerrar sesión?</p>
+    <div style="display:flex;justify-content:center;gap:10px;margin-top:12px">
+      <button class="btn logout" id="confirmLogout">Aceptar</button>
+      <button class="btn cancel" id="cancelLogout">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- CARRITO MODAL -->
+<div id="cartModal" class="modal-back cart-modal hidden">
+  <div class="modal">
+    <button class="close-btn" id="closeCartModal">&times;</button>
+    <h3>Mi Carrito</h3>
+    <div id="cartItems"></div>
+    <div id="cartTotal" class="cart-total"></div>
+    <button id="checkoutBtn" class="btn" style="width:100%;background:#FF9EB4;margin-top:20px" onclick="finalizarCompra()">
+      Finalizar Compra
+    </button>
+  </div>
+</div>
+
+<!-- FAVORITOS MODAL -->
+<div id="favoritosModal" class="modal-back cart-modal hidden">
+  <div class="modal">
+    <button class="close-btn" id="closeFavoritosModal">&times;</button>
+    <h3>❤️ Mis Favoritos</h3>
+    <div id="favoritosItems"></div>
+  </div>
+</div>
+
+<!-- DATOS DE ENVÍO MODAL -->
+<div id="envioModal" class="modal-back" style="display:none">
+  <div class="modal" style="width:600px;max-height:90vh;overflow-y:auto">
+    <button class="close-btn" id="closeEnvioModal">&times;</button>
+    <h3>Datos de Entrega y Pago</h3>
+    
+    <form id="envioForm" onsubmit="event.preventDefault(); procesarCompra();">
+      <h4 style="margin:16px 0 8px 0;color:#FF9EB4">Datos de Entrega</h4>
+      
+      <div class="field">
+        <input id="envioNombre" type="text" required>
+        <label for="envioNombre">Nombre Completo *</label>
+      </div>
+      
+      <div class="field">
+        <input id="envioTelefono" type="tel" required>
+        <label for="envioTelefono">Teléfono *</label>
+      </div>
+      
+      <div class="field">
+        <input id="envioDireccion" type="text" required>
+        <label for="envioDireccion">Dirección *</label>
+      </div>
+      
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="field">
+          <input id="envioCiudad" type="text" required>
+          <label for="envioCiudad">Ciudad *</label>
+        </div>
+        
+        <div class="field">
+          <input id="envioEstado" type="text" required>
+          <label for="envioEstado">Estado *</label>
+        </div>
+      </div>
+      
+      <div class="field">
+        <input id="envioCP" type="text" required>
+        <label for="envioCP">Código Postal *</label>
+      </div>
+      
+      <div class="field">
+        <textarea id="envioReferencias" rows="2"></textarea>
+        <label for="envioReferencias">Referencias (opcional)</label>
+      </div>
+      
+      <h4 style="margin:16px 0 8px 0;color:#FF9EB4">Método de Pago</h4>
+      
+      <div class="field">
+        <select id="metodoPago" required onchange="toggleTarjetaFields()">
+          <option value="">Selecciona un método</option>
+          <option value="tarjeta">Tarjeta de Crédito/Débito</option>
+          <option value="efectivo">Efectivo</option>
+          <option value="transferencia">Transferencia Bancaria</option>
+        </select>
+        <label for="metodoPago">Método de Pago *</label>
+      </div>
+      
+      <div id="tarjetaFields" style="display:none">
+        <div class="field">
+          <input id="nombreTarjeta" type="text">
+          <label for="nombreTarjeta">Nombre en la Tarjeta</label>
+        </div>
+        
+        <div class="field">
+          <input id="numeroTarjeta" type="text" maxlength="16">
+          <label for="numeroTarjeta">Número de Tarjeta</label>
+        </div>
+        
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="field">
+            <input id="fechaExpiracion" type="text" placeholder="MM/AA">
+            <label for="fechaExpiracion">Fecha de Expiración</label>
+          </div>
+          
+          <div class="field">
+            <input id="cvv" type="text" maxlength="3">
+            <label for="cvv">CVV</label>
+          </div>
+        </div>
+      </div>
+      
+      <button type="submit" class="btn" style="width:100%;margin-top:20px;background:#FF9EB4">
+        Confirmar Compra
+      </button>
+    </form>
+  </div>
+</div>

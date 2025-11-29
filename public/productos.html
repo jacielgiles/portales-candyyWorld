@@ -3,126 +3,211 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Productos</title>
+<title>Productos - CandyyWorld</title>
+<link rel="stylesheet" href="css/style.css">
 <style>
-:root{
-  --primary:#0a6bff;
-  --danger:#e53935;
-  --bg:#f4f6f8;
-  --card:#fff;
-  --muted:#6b7280;
-  --highlight:#cce5ff;
-  --accent:#FF9EB4;
+.main-content-productos {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  gap: 30px;
+  max-width: 1400px;
+  margin: 28px auto;
+  padding: 0 16px;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#111}
-.header{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:#FFE6F0;box-shadow:0 1px 4px rgba(0,0,0,0.06);gap:20px}
-.logo{display:flex;align-items:center;justify-content:left}
-.logo img{height:60px;margin-left:20px;}
-.logo strong{margin-left:15px}
-.search-bar{flex:1;max-width:500px;position:relative;margin:0}
-.search-bar input{width:100%;padding:10px 40px 10px 16px;border-radius:25px;border:none;background:white;font-size:14px;outline:none;transition:0.2s;margin:0;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
-.search-bar input:focus{box-shadow:0 2px 12px rgba(255,158,180,0.3)}
-.search-bar input::placeholder{color:#999}
-.search-icon{position:absolute;right:12px;top:50%;transform:translateY(-50%);color:#FF9EB4;font-size:18px;pointer-events:none}
-.search-dropdown{position:absolute;top:100%;left:0;right:0;background:white;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.15);margin-top:8px;max-height:300px;overflow-y:auto;z-index:100;display:none}
-.search-dropdown.active{display:block}
-.search-category{padding:12px 16px;border-bottom:1px solid #f0f0f0}
-.search-category h4{margin:0 0 8px 0;font-size:13px;color:#999;text-transform:uppercase}
-.search-option{padding:8px 12px;cursor:pointer;border-radius:6px;transition:0.2s;font-size:14px}
-.search-option:hover{background:#FFE6F0;color:#FF9EB4}
-.nav{display:flex;gap:10px;align-items:center;position:relative}
-.btn{padding:8px 14px;border-radius:8px;border:0;background:var(--primary);color:white;cursor:pointer;font-weight:600;transition:0.2s}
-.btn:hover{opacity:0.9}
-.btn.ghost{background:transparent;color:var(--primary);border:1px solid rgba(10,107,255,0.12)}
-.btn-icon{background:#FF9EB4;color:white;border:none;padding:10px 20px;border-radius:25px;cursor:pointer;font-weight:600;display:flex;align-items:center;gap:8px;transition:0.3s;min-width:140px;justify-content:center}
-.btn-icon:hover{background:#FF8AA8;transform:translateY(-2px);box-shadow:0 4px 12px rgba(255,158,180,0.3)}
-.btn-icon img{height:20px;filter:brightness(0) invert(1)}
-/* Login modal: use accent color for buttons */
-#loginModal .btn{background:var(--accent);color:#fff;border:0;box-shadow:0 8px 20px rgba(255,158,180,0.12);transition:transform 0.18s ease,box-shadow 0.18s ease}
-#loginModal .btn:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(255,158,180,0.18)}
-/* Apply accent color to all modal buttons and modal links */
-.modal .btn{background:var(--accent);color:#fff;border:0;box-shadow:0 8px 20px rgba(255,158,180,0.10);transition:transform 0.18s ease,box-shadow 0.18s ease}
-.modal .btn:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(255,158,180,0.16)}
-.modal .btn.ghost{background:transparent;color:var(--accent);border:1px solid rgba(255,158,180,0.18);box-shadow:none}
-.modal .switch button, .modal a{color:var(--accent);font-weight:600}
-.modal .close-btn{color:var(--accent)}
-/* Icon-only variant for header login buttons */
-.btn-icon.icon-only{padding:6px;min-width:44px;width:44px;height:44px;border-radius:50%;justify-content:center;border:2px solid rgba(255,255,255,0.85);box-shadow:0 6px 16px rgba(0,0,0,0.08);display:flex;align-items:center;justify-content:center;margin:0}
-.btn-icon.icon-only img{height:14px;width:14px;display:block;margin:0 auto;filter:brightness(0) invert(1)}
-.cart-badge{position:absolute;top:-8px;right:-8px;background:#e53935;color:white;border-radius:50%;width:20px;height:20px;font-size:11px;display:flex;align-items:center;justify-content:center;font-weight:bold}
-.btn.logout{background:var(--danger)}
-.btn.cancel{background:#888;color:white}
-.container{max-width:1200px;margin:28px auto;padding:0 16px}
-h1{font-size:22px;margin-bottom:12px;text-align:center}
-.filter-info{text-align:center;margin-bottom:16px;padding:10px;background:#FFE6F0;border-radius:8px;color:#FF9EB4;font-weight:600}
+
+.sidebar-filters {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+.sidebar-filters h3 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #333;
+  font-family: var(--font-main);
+}
+
+.filter-section {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.filter-section:last-of-type {
+  border-bottom: none;
+}
+
+.filter-section h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  color: #666;
+  text-transform: uppercase;
+  font-family: var(--font-main);
+}
+
+.filter-section label {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+  font-family: var(--font-main);
+}
+
+.filter-section input[type="checkbox"] {
+  margin-right: 8px;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  font-size: 14px;
+  font-family: var(--font-main);
+  background: white;
+  cursor: pointer;
+}
+
+.price-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.price-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.price-input-group label {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+  font-family: var(--font-main);
+}
+
+.price-input-group input[type="number"] {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  font-size: 14px;
+  font-family: var(--font-main);
+  background: white;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.price-input-group input[type="number"]:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(255, 156, 179, 0.15);
+}
+
+.price-input-group input[type="number"]::placeholder {
+  color: #999;
+}
+
+/* Quitar flechas de input number en Chrome, Safari, Edge */
+.price-input-group input[type="number"]::-webkit-outer-spin-button,
+.price-input-group input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Quitar flechas de input number en Firefox */
+.price-input-group input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.btn-clear-filters {
+  width: 100%;
+  padding: 10px;
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  color: #666;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-family: var(--font-main);
+  margin-top: 10px;
+}
+
+.btn-clear-filters:hover {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.content-area-productos {
+  flex: 1;
+}
+
+.filter-info{text-align:center;margin-bottom:16px;padding:10px;background:#fff5f8;border:1px solid var(--primary);border-radius:8px;color:var(--primary);font-weight:600}
 .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
-.product-card{background:#fff;border:1px solid #e0e0e0;border-radius:12px;padding:16px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.08);transition:transform 0.2s,box-shadow 0.2s;cursor:pointer}
-.product-card:hover{transform:translateY(-4px);box-shadow:0 8px 20px rgba(0,0,0,0.15)}
+.product-card{background:white;border:1px solid #e0e0e0;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06);transition:transform 0.2s,box-shadow 0.2s;cursor:pointer}
+.product-card:hover{transform:translateY(-4px);box-shadow:0 6px 16px rgba(0,0,0,0.12)}
 .product-card img{width:100%;border-radius:8px;height:180px;object-fit:cover}
 .product-card h3{margin:12px 0 6px;font-size:18px;color:#333}
 .product-card p{margin:4px 0;font-size:14px;color:#555}
-.product-card .price{font-weight:bold;color:#FF9EB4;margin-top:6px;font-size:16px}
-.product-card button{margin-top:10px;padding:8px 14px;border-radius:8px;border:none;background:#FF9EB4;color:white;font-weight:600;cursor:pointer;transition:0.2s}
+.product-card .price{font-weight:bold;color:var(--primary);margin-top:6px;font-size:16px}
+.product-card button{margin-top:10px;padding:8px 14px;border-radius:8px;border:none;background:var(--primary);color:white;font-weight:600;cursor:pointer;transition:0.2s}
 .product-card button:hover{background:#FF8AA8}
-.delete-btn{background:#e53935 !important}
-.delete-btn:hover{background:#d32f2f !important}
-.modal-back {
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,0.3); 
-  backdrop-filter: blur(6px);  
-  -webkit-backdrop-filter: blur(6px); 
-  z-index: 50;
-}
-.modal{width:480px;background:var(--card);padding:22px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,0.12);position:relative;display:flex;flex-direction:column}
-.modal h3{text-align:center;margin-bottom:16px}
-.field{position:relative;margin-bottom:14px;display:flex;flex-direction:column}
-input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e9ee;font-size:14px;transition:box-shadow 0.18s ease,border-color 0.18s ease}
 
-/* Floating label for modal inputs */
- .field label{position:absolute;left:14px;top:50%;transform:translateY(-50%);transition:transform 0.22s cubic-bezier(.2,.9,.2,1),font-size 0.18s ease,color 0.18s ease;pointer-events:none;color:#666;font-size:14px;background:var(--card);padding:0 6px;border-radius:4px}
- .field input:focus + label,.field textarea:focus + label,.field select:focus + label,.field.filled label{transform:translateY(-20px);font-size:12px;color:var(--accent);font-weight:600}
- .field input:focus,.field textarea:focus,.field select:focus{outline:0;border-color:var(--accent);box-shadow:0 10px 26px rgba(255,158,180,0.12)}
-.muted{color:var(--muted);font-size:13px;margin-top:6px}
-.switch{text-align:center;margin-top:10px}
-.switch button{background:none;border:0;color:var(--primary);cursor:pointer;font-weight:600}
-.hidden{display:none}
-.profile-modal .info{margin-bottom:12px}
-.profile-modal .info span{font-weight:600}
-.close-btn{position:absolute;top:10px;right:10px;background:none;border:none;font-size:20px;cursor:pointer}
-.highlight{background:var(--highlight);padding:4px 6px;border-radius:6px;}
-#changePassModal .btn-group{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;}
-#changePassModal .btn.cancel{background:var(--danger)}
-#logoutConfirmModal .modal{width:360px;text-align:center}
-#logoutConfirmModal .btn{padding:8px 14px;margin:4px;border-radius:6px;font-weight:600;cursor:pointer}
-#logoutConfirmModal .btn.logout{background:var(--danger);color:white}
-#logoutConfirmModal .btn.cancel{background:#888;color:white}
-.cart-modal .modal{width:500px;max-height:80vh;overflow-y:auto}
-.cart-item{display:flex;gap:12px;padding:12px;background:#f9f9f9;border-radius:8px;margin-bottom:10px;align-items:center}
-.cart-item img{width:60px;height:60px;object-fit:cover;border-radius:6px}
-.cart-item-info{flex:1}
-.cart-item-info h4{margin:0 0 4px 0;font-size:14px}
-.cart-item-info p{margin:0;font-size:12px;color:#666}
-.cart-total{margin-top:16px;padding-top:16px;border-top:2px solid #FFB3D9;font-size:18px;font-weight:bold;text-align:right;color:#FF9EB4}
-.empty-cart{text-align:center;padding:40px;color:#999}
-@media(max-width:500px){.modal{width:90%}}
-/* Footer styles */
-.footer{background:linear-gradient(135deg,#FF9EB4 0%,#FFB3D9 100%);color:white;padding:40px 20px;margin-top:60px}
-.footer-container{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px}
-.footer-column h4{font-size:1rem;margin-bottom:12px;color:white;font-weight:600}
-.footer-column a,.footer-column div{display:block;color:rgba(255,255,255,0.9);text-decoration:none;margin-bottom:6px;font-size:0.9rem}
-.footer-column a:hover{color:white;text-decoration:underline}
-.newsletter{display:flex;gap:8px;margin-top:10px}
-.newsletter input{flex:1;padding:8px 12px;border:none;border-radius:4px;font-size:0.9rem}
-.newsletter button{background:white;color:#FF9EB4;border:none;padding:8px 16px;border-radius:4px;cursor:pointer;font-weight:600;transition:0.2s}
-.newsletter button:hover{background:#FFE6F0}
-.social-icons{display:flex;gap:10px;margin-top:10px}
-.social-icon{width:44px;height:44px;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.6);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;cursor:pointer;transition:0.3s}
-.social-icon:hover{background:rgba(255,255,255,0.3);border-color:white;transform:scale(1.1)}
+@media (max-width: 1024px) {
+  .main-content-productos {
+    grid-template-columns: 220px 1fr;
+    gap: 20px;
+  }
+  
+  .sidebar-filters {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content-productos {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .sidebar-filters {
+    position: static;
+    margin-bottom: 20px;
+  }
+  
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 500px) {
+  .products-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebar-filters h3 {
+    font-size: 18px;
+  }
+  
+  .filter-section h4 {
+    font-size: 13px;
+  }
+}
 </style>
 </head>
 <body>
@@ -153,14 +238,17 @@ input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid
     <button id="userBtn" class="btn-icon icon-only" aria-label="Usuario">
       <img src="img/person.png" alt="Usuario">
     </button>
+    <button id="favoritosBtn" class="btn-icon" style="position:relative">
+       ❤️ Favoritos
+    </button>
     <button id="cartBtn" class="btn-icon" style="position:relative">
-       Carrito
+       🛒 Carrito
       <span id="cartBadge" class="cart-badge hidden">0</span>
     </button>
   </nav>
 </header>
 
-<!-- LOGIN MODAL -->
+<!-- Modales (copiar del index.html) -->
 <div id="loginModal" class="modal-back">
   <div class="modal">
     <button class="close-btn" id="closeLoginModal">&times;</button>
@@ -175,7 +263,6 @@ input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid
   </div>
 </div>
 
-<!-- REGISTER MODAL -->
 <div id="registerModal" class="modal-back">
   <div class="modal">
     <button class="close-btn" id="closeRegisterModal">&times;</button>
@@ -193,25 +280,53 @@ input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid
   </div>
 </div>
 
-<!-- PERFIL MODAL -->
 <div id="profileModal" class="modal-back profile-modal">
-  <div class="modal">
+  <div class="modal" style="max-width:600px;max-height:85vh;overflow-y:auto">
     <button class="close-btn" id="closeProfileModal">&times;</button>
-    <h3>Perfil</h3>
-    <div class="info">Nombre: <span id="userName"></span></div>
-    <div class="info">Correo: <span id="userEmail"></span></div>
-    <div class="info">Fecha de nacimiento: <span id="userBirth"></span></div>
-    <div class="info highlight">Pedidos: <span id="userPedidos"></span></div>
-    <div class="field">
-      <button class="btn ghost" id="openChangePass">Cambiar contraseña</button>
+    <h3>Mi Perfil</h3>
+    
+    <!-- Pestañas -->
+    <div style="display:flex;gap:10px;margin-bottom:20px;border-bottom:2px solid #f0f0f0">
+      <button class="profile-tab active" data-tab="info" style="flex:1;padding:12px;border:none;background:transparent;cursor:pointer;font-weight:600;color:#666;border-bottom:3px solid transparent;transition:0.2s">
+        👤 Información
+      </button>
+      <button class="profile-tab" data-tab="pedidos" style="flex:1;padding:12px;border:none;background:transparent;cursor:pointer;font-weight:600;color:#666;border-bottom:3px solid transparent;transition:0.2s">
+        📦 Pedidos
+      </button>
     </div>
-    <div class="field" style="display:flex;justify-content:flex-end;gap:10px">
-      <button class="btn logout" id="logoutBtn">Cerrar sesión</button>
+    
+    <!-- Tab: Información -->
+    <div id="tabInfo" class="profile-tab-content">
+      <div class="info">Nombre: <span id="userName"></span></div>
+      <div class="info">Correo: <span id="userEmail"></span></div>
+      <div class="info">Fecha de nacimiento: <span id="userBirth"></span></div>
+      <div class="info highlight">Pedidos completados: <span id="userPedidos"></span></div>
+      <div class="info" style="background:#E8F5E9;padding:12px;border-radius:8px;margin-top:12px">
+        <span style="color:#2E7D32;font-weight:600;font-size:16px">⭐ Puntos: <span id="userPuntos">0</span></span>
+        <br>
+        <small style="color:#666;margin-top:6px;display:block">Descuento disponible: <span id="userDescuento" style="font-weight:600;color:#FF9EB4;font-size:14px">0%</span></small>
+      </div>
+    </div>
+    
+    <!-- Tab: Pedidos -->
+    <div id="tabPedidos" class="profile-tab-content" style="display:none">
+      <div id="pedidosContainer">
+        <div id="pedidosList"></div>
+      </div>
+    </div>
+    
+    <!-- Botones siempre visibles -->
+    <div style="margin-top:24px;padding-top:20px;border-top:2px solid #f0f0f0">
+      <div class="field">
+        <button class="btn ghost" id="openChangePass" style="width:100%">🔒 Cambiar contraseña</button>
+      </div>
+      <div class="field">
+        <button class="btn logout" id="logoutBtn" style="width:100%">🚪 Cerrar sesión</button>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- CAMBIAR CONTRASEÑA MODAL -->
 <div id="changePassModal" class="modal-back">
   <div class="modal">
     <button class="close-btn" id="closeChangePass">&times;</button>
@@ -226,7 +341,6 @@ input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid
   </div>
 </div>
 
-<!-- CONFIRMAR CERRAR SESION -->
 <div id="logoutConfirmModal" class="modal-back">
   <div class="modal">
     <h3>Confirmar</h3>
@@ -238,533 +352,409 @@ input,select,textarea{width:100%;padding:10px;border-radius:8px;border:1px solid
   </div>
 </div>
 
-<!-- CARRITO MODAL -->
-<div id="cartModal" class="modal-back cart-modal">
+<div id="cartModal" class="modal-back cart-modal hidden">
   <div class="modal">
     <button class="close-btn" id="closeCartModal">&times;</button>
     <h3>Mi Carrito</h3>
     <div id="cartItems"></div>
-    <div id="cartTotal" class="cart-total hidden"></div>
-    <div style="display:flex;gap:10px;margin-top:20px">
-      <button class="btn" id="checkoutBtn" style="flex:1;background:#FF9EB4">Finalizar Compra</button>
-    </div>
+    <div id="cartTotal" class="cart-total"></div>
+    <button id="checkoutBtn" class="btn" style="width:100%;background:var(--primary);margin-top:20px" onclick="finalizarCompra()">
+      Finalizar Compra
+    </button>
   </div>
 </div>
 
-<main class="container">
-  <h1>Productos</h1>
-  <div id="filterInfo" class="filter-info hidden"></div>
-  <div id="products" class="products-grid"></div>
-</main>
+<div id="favoritosModal" class="modal-back cart-modal hidden">
+  <div class="modal">
+    <button class="close-btn" id="closeFavoritosModal">&times;</button>
+    <h3>❤️ Mis Favoritos</h3>
+    <div id="favoritosItems"></div>
+  </div>
+</div>
 
-<script>
-const $ = id=>document.getElementById(id);
-
-// Modales
-const loginModal = $('loginModal');
-const registerModal = $('registerModal');
-const profileModal = $('profileModal');
-const changePassModal = $('changePassModal');
-const logoutConfirmModal = $('logoutConfirmModal');
-const cartModal = $('cartModal');
-
-// Botones
-const userBtn = $('userBtn');
-const cartBtn = $('cartBtn');
-const closeCartModal = $('closeCartModal');
-const cartBadge = $('cartBadge');
-const cartItems = $('cartItems');
-const cartTotal = $('cartTotal');
-const openChangePass = $('openChangePass');
-const closeChangePass = $('closeChangePass');
-const closeProfileModal = $('closeProfileModal');
-const cancelPass = $('cancelPass');
-const logoutBtn = $('logoutBtn');
-const confirmLogout = $('confirmLogout');
-const cancelLogout = $('cancelLogout');
-
-// Formularios y mensajes
-const loginForm = $('loginForm');
-const registerForm = $('registerForm');
-const loginMsg = $('loginMsg');
-const regMsg = $('regMsg');
-const passMsg = $('passMsg');
-
-// Datos de usuario
-const userName = $('userName');
-const userEmail = $('userEmail');
-const userPedidos = $('userPedidos');
-const userBirth = $('userBirth');
-const currentPassword = $('currentPassword');
-const newPassword = $('newPassword');
-const updatePass = $('updatePass');
-
-function show(el){el.style.display='flex'}
-function hide(el){el.style.display='none'}
-
-function setUserUI(user){
-  const profileModalContent = profileModal.querySelector('.modal');
-  if(!user){
-    // Cuando no hay usuario, ocultamos modales de perfil relacionados
-    hide(profileModal); hide(changePassModal); hide(logoutConfirmModal);
-  } else {
-    // Ocultar modales de autenticación cuando ya hay usuario
-    hide(loginModal); hide(registerModal);
-    updateCartBadge();
-    if(userName) userName.textContent = user.name;
-    if(userEmail) userEmail.textContent = user.email;
-    if(userBirth) userBirth.textContent = (user.birthdate || '').split('T')[0] || '';
-    if(userPedidos) userPedidos.textContent = user.pedidos || '0';
-
-    // --- ADMIN: agregar botón de "Añadir Producto" ---
-    let adminBtn = null;
-    if (profileModalContent) adminBtn = profileModalContent.querySelector('#addProductBtn');
-    if(user.email === 'langosta@admin.com') {
-      if(!adminBtn && profileModalContent){
-        adminBtn = document.createElement('button');
-        adminBtn.id = 'addProductBtn';
-        adminBtn.className = 'btn';
-        adminBtn.textContent = 'Añadir Producto';
-        adminBtn.style.marginTop = '10px';
-        adminBtn.addEventListener('click', ()=>{
-          window.location.href = 'admin.html';
-        });
-        profileModalContent.appendChild(adminBtn);
-      }
-    } else {
-      if(adminBtn) adminBtn.remove();
-    }
-  }
-}
-
-// Cargar usuario guardado
-let currentUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
-setUserUI(currentUser);
-
-// Navegación y modales
-$('toRegister').addEventListener('click',()=>{hide(loginModal); show(registerModal)});
-$('toLogin').addEventListener('click',()=>{hide(registerModal); show(loginModal)});
-// Cuando se hace click en el botón de usuario: si no hay sesión, abrir login; si hay sesión, abrir perfil
-userBtn.addEventListener('click',()=>{
-  if(!currentUser) show(loginModal);
-  else show(profileModal);
-});
-$('closeLoginModal').addEventListener('click',()=>hide(loginModal));
-$('closeRegisterModal').addEventListener('click',()=>hide(registerModal));
-// El cierre del modal de perfil mantiene el mismo id
-closeProfileModal.addEventListener('click',()=>hide(profileModal));
-openChangePass.addEventListener('click',()=>{show(changePassModal); hide(profileModal)});
-closeChangePass.addEventListener('click',()=>hide(changePassModal));
-cancelPass.addEventListener('click',()=>hide(changePassModal));
-
-// Carrito
-cartBtn.addEventListener('click',()=>{
-  if(!currentUser){
-    show(loginModal);
-    return;
-  }
-  loadCart();
-  show(cartModal);
-});
-closeCartModal.addEventListener('click',()=>hide(cartModal));
-
-function updateCartBadge(){
-  if(!currentUser || !currentUser.carrito) {
-    cartBadge.classList.add('hidden');
-    return;
-  }
-  let cart = [];
-  try{ cart = JSON.parse(currentUser.carrito || "[]"); }catch{}
-  if(cart.length > 0){
-    cartBadge.textContent = cart.length;
-    cartBadge.classList.remove('hidden');
-  } else {
-    cartBadge.classList.add('hidden');
-  }
-}
-
-function loadCart(){
-  if(!currentUser || !currentUser.carrito){
-    cartItems.innerHTML = '<div class="empty-cart">Tu carrito está vacío</div>';
-    cartTotal.classList.add('hidden');
-    return;
-  }
-  let cart = [];
-  try{ cart = JSON.parse(currentUser.carrito || "[]"); }catch{}
-  if(cart.length === 0){
-    cartItems.innerHTML = '<div class="empty-cart">Tu carrito está vacío</div>';
-    cartTotal.classList.add('hidden');
-    return;
-  }
-  // Aquí deberías cargar los productos desde la DB
-  cartItems.innerHTML = cart.map((id,i)=>`
-    <div class="cart-item">
-      <img src="img/banner1.png" alt="Producto">
-      <div class="cart-item-info">
-        <h4>Producto #${id}</h4>
-        <p>$99.99</p>
+<div id="envioModal" class="modal-back" style="display:none">
+  <div class="modal" style="width:600px;max-height:90vh;overflow-y:auto">
+    <button class="close-btn" id="closeEnvioModal">&times;</button>
+    <h3>Datos de Entrega y Pago</h3>
+    
+    <form id="envioForm" onsubmit="event.preventDefault(); procesarCompra();">
+      <h4 style="margin:16px 0 8px 0;color:var(--primary)">Datos de Entrega</h4>
+      
+      <div class="field">
+        <input id="envioNombre" type="text" required>
+        <label for="envioNombre">Nombre Completo *</label>
       </div>
-      <button class="btn cancel" onclick="removeFromCart(${i})">✕</button>
+      
+      <div class="field">
+        <input id="envioTelefono" type="tel" required>
+        <label for="envioTelefono">Teléfono *</label>
+      </div>
+      
+      <div class="field">
+        <input id="envioDireccion" type="text" required>
+        <label for="envioDireccion">Dirección *</label>
+      </div>
+      
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div class="field">
+          <input id="envioCiudad" type="text" required>
+          <label for="envioCiudad">Ciudad *</label>
+        </div>
+        
+        <div class="field">
+          <input id="envioEstado" type="text" required>
+          <label for="envioEstado">Estado *</label>
+        </div>
+      </div>
+      
+      <div class="field">
+        <input id="envioCP" type="text" required>
+        <label for="envioCP">Código Postal *</label>
+      </div>
+      
+      <div class="field">
+        <textarea id="envioReferencias" rows="2"></textarea>
+        <label for="envioReferencias">Referencias (opcional)</label>
+      </div>
+      
+      <h4 style="margin:16px 0 8px 0;color:var(--primary)">Método de Pago</h4>
+      
+      <div class="field">
+        <select id="metodoPago" required onchange="toggleTarjetaFields()">
+          <option value="">Selecciona un método</option>
+          <option value="tarjeta">Tarjeta de Crédito/Débito</option>
+          <option value="efectivo">Efectivo</option>
+          <option value="transferencia">Transferencia Bancaria</option>
+        </select>
+        <label for="metodoPago">Método de Pago *</label>
+      </div>
+      
+      <div id="tarjetaFields" style="display:none">
+        <div class="field">
+          <input id="nombreTarjeta" type="text">
+          <label for="nombreTarjeta">Nombre en la Tarjeta</label>
+        </div>
+        
+        <div class="field">
+          <input id="numeroTarjeta" type="text" maxlength="16">
+          <label for="numeroTarjeta">Número de Tarjeta</label>
+        </div>
+        
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div class="field">
+            <input id="fechaExpiracion" type="text" placeholder="MM/AA">
+            <label for="fechaExpiracion">Fecha de Expiración</label>
+          </div>
+          
+          <div class="field">
+            <input id="cvv" type="text" maxlength="3">
+            <label for="cvv">CVV</label>
+          </div>
+        </div>
+      </div>
+      
+      <button type="submit" class="btn" style="width:100%;margin-top:20px;background:var(--primary)">
+        Confirmar Compra
+      </button>
+    </form>
+  </div>
+</div>
+
+<div id="notification" class="notification"></div>
+
+<div class="main-content-productos">
+  <aside class="sidebar-filters">
+    <h3>Filtros</h3>
+    
+    <div class="filter-section">
+      <h4>Categoría</h4>
+      <div id="filterCategoria"></div>
     </div>
-  `).join('');
-  cartTotal.innerHTML = `Total: $${(cart.length * 99.99).toFixed(2)}`;
-  cartTotal.classList.remove('hidden');
-}
-
-function removeFromCart(index){
-  if(!currentUser) return;
-  let cart = [];
-  try{ cart = JSON.parse(currentUser.carrito || "[]"); }catch{}
-  cart.splice(index, 1);
-  currentUser.carrito = JSON.stringify(cart);
-  localStorage.setItem('user', JSON.stringify(currentUser));
-  updateCartBadge();
-  loadCart();
-}
-
-// LOGIN
-loginForm.addEventListener('submit', async e => {
-  e.preventDefault();
-  loginMsg.textContent = '';
-  const email = $('loginEmail').value.trim();
-  const password = $('loginPassword').value.trim();
-  if (!email || !password) {
-    loginMsg.textContent = 'Completa email y contraseña';
-    return;
-  }
-  try {
-    // Verificar si es el admin
-    if(email === 'langosta@admin' && password === 'portales') {
-      localStorage.setItem('admin', 'true');
-      window.location.href = 'admin.html';
-      return;
-    }
-
-    const res = await fetch('/.netlify/functions/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-    const data = await res.json();
-    if (!data.success) {
-      loginMsg.textContent = data.message || 'Error al iniciar sesión';
-      return;
-    }
-    localStorage.setItem('user', JSON.stringify(data.user));
-    currentUser = data.user;
-    setUserUI(currentUser);
-    hide(loginModal);
-  } catch (err) {
-    loginMsg.textContent = 'Error de conexión';
-  }
-});
-
-// REGISTER
-registerForm.addEventListener('submit', async e=>{
-  e.preventDefault();
-  regMsg.textContent='';
-  const name=$('regName').value.trim();
-  const email=$('regEmail').value.trim();
-  const password=$('regPassword').value.trim();
-  const confirmPass=$('regConfirmPassword').value.trim();
-  const birthdate=$('regBirth').value;
-  if(!name||!email||!password||!confirmPass||!birthdate){regMsg.textContent='Completa todos los campos';return;}
-  if(password!==confirmPass){regMsg.textContent='Las contraseñas no coinciden';return;}
-  try{
-    const res = await fetch('/.netlify/functions/register',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({name,email,password,birthdate})
-    });
-    const data = await res.json();
-    if(!data.success){regMsg.textContent=data.message||'Error al crear cuenta';return;}
-    localStorage.setItem('user',JSON.stringify(data.user));
-    currentUser = data.user;
-    setUserUI(currentUser);
-    hide(registerModal);
-  }catch(err){regMsg.textContent='Error de conexión'}
-});
-
-// CERRAR SESIÓN
-logoutBtn.addEventListener('click',()=> show(logoutConfirmModal));
-cancelLogout.addEventListener('click',()=> hide(logoutConfirmModal));
-confirmLogout.addEventListener('click',()=>{
-  localStorage.removeItem('user');
-  currentUser = null;
-  setUserUI(currentUser);
-  hide(logoutConfirmModal);
-});
-
-// CAMBIAR CONTRASEÑA
-updatePass.addEventListener('click', async ()=>{
-  passMsg.textContent='';
-  const current = currentPassword.value.trim();
-  const newP = newPassword.value.trim();
-  if(!current||!newP){passMsg.textContent='Completa ambos campos';return;}
-  try{
-    const res = await fetch('/.netlify/functions/updatePassword',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({email:currentUser.email,currentPassword:current,newPassword:newP})
-    });
-    const data = await res.json();
-    passMsg.textContent = data.message;
-    if(data.success){
-      currentPassword.value=''; newPassword.value='';
-      hide(changePassModal);
-    }
-  }catch(err){passMsg.textContent='Error de conexión'}
-});
-
-// BUSCADOR CON FILTROS
-const searchInput = $('searchInput');
-const searchDropdown = $('searchDropdown');
-const categoryOptions = $('categoryOptions');
-const saborOptions = $('saborOptions');
-
-// Cargar categorías y sabores desde la DB
-async function loadSearchFilters(){
-  try{
-    const res = await fetch('/.netlify/functions/getProductos', { method:'POST' });
-    const data = await res.json();
-    if(!data.success) return;
     
-    const productos = data.products;
-    const categorias = [...new Set(productos.map(p=>p.categoria))];
-    const sabores = [...new Set(productos.map(p=>p.sabor))];
+    <div class="filter-section">
+      <h4>Sabor</h4>
+      <div id="filterSabor"></div>
+    </div>
     
-    categoryOptions.innerHTML = categorias.map(cat=>
-      `<div class="search-option" onclick="searchBy('categoria','${cat}')">${cat}</div>`
-    ).join('');
+    <div class="filter-section">
+      <h4>Precio</h4>
+      <div class="price-inputs">
+        <div class="price-input-group">
+          <label for="minPrice">Mínimo</label>
+          <input type="number" id="minPrice" placeholder="$0" min="0" step="10">
+        </div>
+        <div class="price-input-group">
+          <label for="maxPrice">Máximo</label>
+          <input type="number" id="maxPrice" placeholder="$1000" min="0" step="10">
+        </div>
+      </div>
+    </div>
     
-    saborOptions.innerHTML = sabores.map(sab=>
-      `<div class="search-option" onclick="searchBy('sabor','${sab}')">${sab}</div>`
-    ).join('');
-  }catch(err){console.error(err);}
-}
+    <div class="filter-section">
+      <h4>Ordenar por</h4>
+      <select id="sortBy" class="filter-select">
+        <option value="default">Recomendado</option>
+        <option value="price-asc">Precio: Menor a Mayor</option>
+        <option value="price-desc">Precio: Mayor a Menor</option>
+        <option value="name">Nombre A-Z</option>
+      </select>
+    </div>
+    
+    <button class="btn-clear-filters" onclick="clearFilters()">Limpiar Filtros</button>
+  </aside>
+  
+  <div class="content-area-productos">
+    <div id="filterInfo" class="filter-info hidden"></div>
+    <div id="productsGrid" class="products-grid"></div>
+  </div>
+</div>
 
-searchInput.addEventListener('focus', ()=>{
-  searchDropdown.classList.add('active');
-  if(categoryOptions.innerHTML === '') loadSearchFilters();
-});
-
-searchInput.addEventListener('blur', ()=>{
-  setTimeout(()=>searchDropdown.classList.remove('active'), 200);
-});
-
-searchInput.addEventListener('keypress', (e)=>{
-  if(e.key === 'Enter'){
-    const query = searchInput.value.trim();
-    if(query) window.location.href = `productos.html?search=${encodeURIComponent(query)}`;
-  }
-});
-
-function searchBy(tipo, valor){
-  window.location.href = `productos.html?${tipo}=${encodeURIComponent(valor)}`;
-}
-
-loadSearchFilters();
-
-// Admin email
-const adminEmail = "langosta@admin.com";
-
-// Contenedor
-const productsContainer = $('products');
-const filterInfo = $('filterInfo');
-
-// Obtener parámetros de URL
+<script src="cart.js"></script>
+<script src="shared.js"></script>
+<script>
 const urlParams = new URLSearchParams(window.location.search);
 const searchQuery = urlParams.get('search');
-const categoriaFilter = urlParams.get('categoria');
-const saborFilter = urlParams.get('sabor');
+const categoria = urlParams.get('categoria');
+const sabor = urlParams.get('sabor');
 
-// Función agregar al carrito
-async function agregarAlCarrito(productId){
-  if(!currentUser){ alert('Debes iniciar sesión'); window.location.href='index.html'; return; }
+let allProducts = [];
+let filteredProducts = [];
 
-  try{
-    const res = await fetch('/.netlify/functions/addToCart', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({ email:currentUser.email, productId })
-    });
+async function loadProducts() {
+  try {
+    const res = await fetch('/.netlify/functions/getProductos', { method: 'POST' });
     const data = await res.json();
-    if(data.success){
-      const count = data.carrito.filter(id => id === productId).length;
-      document.getElementById(`cartCount-${productId}`).textContent = count;
-      currentUser.carrito = JSON.stringify(data.carrito);
-      localStorage.setItem('user', JSON.stringify(currentUser));
-      updateCartBadge();
-    } else alert(data.message || 'Error al añadir al carrito');
-  }catch(err){ console.error(err); alert('Error de conexión'); }
+    
+    if (!data.success) {
+      showNotification('Error al cargar productos', 'error');
+      return;
+    }
+
+    allProducts = data.products;
+    filteredProducts = [...allProducts];
+    
+    // Cargar filtros
+    loadFilters();
+    
+    // Aplicar filtros de URL
+    if (searchQuery) {
+      filterBySearch(searchQuery);
+    } else if (categoria) {
+      // Marcar categoría en filtros
+      setTimeout(() => {
+        const checkbox = document.querySelector(`#filterCategoria input[value="${categoria}"]`);
+        if (checkbox) {
+          checkbox.checked = true;
+          applyFilters();
+        }
+      }, 100);
+    } else if (sabor) {
+      // Marcar sabor en filtros
+      setTimeout(() => {
+        const checkbox = document.querySelector(`#filterSabor input[value="${sabor}"]`);
+        if (checkbox) {
+          checkbox.checked = true;
+          applyFilters();
+        }
+      }, 100);
+    } else {
+      displayProducts(allProducts);
+    }
+
+  } catch (err) {
+    console.error(err);
+    showNotification('Error de conexión', 'error');
+  }
 }
 
-// Función eliminar producto
-async function eliminarProducto(productId){
-  if(!confirm("¿Seguro que deseas eliminar este producto?")){
+function loadFilters() {
+  // Obtener categorías y sabores únicos
+  const categorias = [...new Set(allProducts.map(p => p.categoria))];
+  const sabores = [...new Set(allProducts.map(p => p.sabor))];
+  
+  // Cargar filtro de categorías
+  const filterCategoria = document.getElementById('filterCategoria');
+  filterCategoria.innerHTML = categorias.map(cat => `
+    <label>
+      <input type="checkbox" value="${cat}" onchange="applyFilters()">
+      ${cat}
+    </label>
+  `).join('');
+  
+  // Cargar filtro de sabores
+  const filterSabor = document.getElementById('filterSabor');
+  filterSabor.innerHTML = sabores.map(sab => `
+    <label>
+      <input type="checkbox" value="${sab}" onchange="applyFilters()">
+      ${sab}
+    </label>
+  `).join('');
+  
+  // Configurar inputs de precio
+  const minPriceInput = document.getElementById('minPrice');
+  const maxPriceInput = document.getElementById('maxPrice');
+  const maxPrice = Math.max(...allProducts.map(p => parseFloat(p.precio)));
+  
+  minPriceInput.value = 0;
+  maxPriceInput.value = Math.ceil(maxPrice);
+  maxPriceInput.placeholder = '$' + Math.ceil(maxPrice);
+  
+  minPriceInput.addEventListener('input', applyFilters);
+  maxPriceInput.addEventListener('input', applyFilters);
+  
+  // Configurar ordenamiento
+  document.getElementById('sortBy').addEventListener('change', applyFilters);
+}
+
+function applyFilters() {
+  // Obtener filtros seleccionados
+  const selectedCategorias = Array.from(document.querySelectorAll('#filterCategoria input:checked')).map(cb => cb.value);
+  const selectedSabores = Array.from(document.querySelectorAll('#filterSabor input:checked')).map(cb => cb.value);
+  const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
+  const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
+  const sortBy = document.getElementById('sortBy').value;
+  
+  // Filtrar productos
+  filteredProducts = allProducts.filter(prod => {
+    const matchCategoria = selectedCategorias.length === 0 || selectedCategorias.includes(prod.categoria);
+    const matchSabor = selectedSabores.length === 0 || selectedSabores.includes(prod.sabor);
+    const precio = parseFloat(prod.precio);
+    const matchPrice = precio >= minPrice && precio <= maxPrice;
+    
+    return matchCategoria && matchSabor && matchPrice;
+  });
+  
+  // Ordenar productos
+  if (sortBy === 'price-asc') {
+    filteredProducts.sort((a, b) => parseFloat(a.precio) - parseFloat(b.precio));
+  } else if (sortBy === 'price-desc') {
+    filteredProducts.sort((a, b) => parseFloat(b.precio) - parseFloat(a.precio));
+  } else if (sortBy === 'name') {
+    filteredProducts.sort((a, b) => a.nombre.localeCompare(b.nombre));
+  }
+  
+  // Mostrar productos filtrados
+  displayProducts(filteredProducts);
+  
+  // Actualizar info de filtros
+  updateFilterInfo();
+}
+
+function updateFilterInfo() {
+  const filterInfo = document.getElementById('filterInfo');
+  const selectedCategorias = Array.from(document.querySelectorAll('#filterCategoria input:checked')).map(cb => cb.value);
+  const selectedSabores = Array.from(document.querySelectorAll('#filterSabor input:checked')).map(cb => cb.value);
+  
+  if (selectedCategorias.length > 0 || selectedSabores.length > 0) {
+    let infoText = '';
+    if (selectedCategorias.length > 0) infoText += `Categorías: ${selectedCategorias.join(', ')}`;
+    if (selectedSabores.length > 0) infoText += (infoText ? ' | ' : '') + `Sabores: ${selectedSabores.join(', ')}`;
+    filterInfo.textContent = infoText;
+    filterInfo.classList.remove('hidden');
+  } else {
+    filterInfo.classList.add('hidden');
+  }
+}
+
+function clearFilters() {
+  // Limpiar checkboxes
+  document.querySelectorAll('#filterCategoria input, #filterSabor input').forEach(cb => cb.checked = false);
+  
+  // Resetear precio
+  const maxPrice = Math.max(...allProducts.map(p => parseFloat(p.precio)));
+  document.getElementById('minPrice').value = 0;
+  document.getElementById('maxPrice').value = Math.ceil(maxPrice);
+  
+  // Resetear ordenamiento
+  document.getElementById('sortBy').value = 'default';
+  
+  // Aplicar filtros (mostrar todos)
+  applyFilters();
+}
+
+function filterBySearch(query) {
+  const filtered = allProducts.filter(p => 
+    p.nombre.toLowerCase().includes(query.toLowerCase()) ||
+    p.descripcion.toLowerCase().includes(query.toLowerCase())
+  );
+  displayProducts(filtered);
+  const filterInfo = document.getElementById('filterInfo');
+  filterInfo.textContent = `Resultados para: "${query}"`;
+  filterInfo.classList.remove('hidden');
+}
+
+function displayProducts(products) {
+  const grid = document.getElementById('productsGrid');
+  
+  if (products.length === 0) {
+    grid.innerHTML = '<p style="text-align:center;color:#999;grid-column:1/-1">No se encontraron productos</p>';
     return;
   }
 
-  try{
-    const res = await fetch("/.netlify/functions/deleteProducto", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ productId })
+  grid.innerHTML = products.map(prod => `
+    <div class="product-card" onclick="window.location.href='espec_producto.html?id=${prod.id}'">
+      <img src="${prod.imagen}" alt="${prod.nombre}">
+      <h3>${prod.nombre}</h3>
+      <p>${prod.descripcion ? prod.descripcion.substring(0, 60) + '...' : ''}</p>
+      <p class="price">$${parseFloat(prod.precio).toFixed(2)}</p>
+      <button onclick="event.stopPropagation(); addToCartQuick(${prod.id})">Añadir al Carrito</button>
+    </div>
+  `).join('');
+}
+
+async function addToCartQuick(productId) {
+  if (!currentUser) {
+    showNotification('Debes iniciar sesión primero', 'error');
+    setTimeout(() => window.location.href = 'index.html', 1500);
+    return;
+  }
+
+  try {
+    const res = await fetch('/.netlify/functions/addToCart', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: currentUser.email, productId: String(productId) })
     });
-
+    
     const data = await res.json();
-
-    if(data.success){
-      alert("Producto eliminado correctamente");
-      location.reload();
+    
+    if (data.success) {
+      currentUser.carrito = JSON.stringify(data.carrito);
+      localStorage.setItem('user', JSON.stringify(currentUser));
+      if (typeof updateCartBadge === 'function') updateCartBadge();
+      if (typeof updateCartBadgeGlobal === 'function') updateCartBadgeGlobal();
+      showNotification('Producto añadido al carrito', 'success');
     } else {
-      alert("Error: " + data.message);
+      showNotification('Error al añadir al carrito', 'error');
     }
-
-  } catch(err){
+    
+  } catch (err) {
     console.error(err);
-    alert("Error de conexión");
+    showNotification('Error de conexión', 'error');
   }
 }
 
-// Cargar productos
-async function cargarProductos(){
-  try{
-    const res = await fetch('/.netlify/functions/getProductos', { method:'POST' });
-    const data = await res.json();
-    if(!data.success){ productsContainer.innerHTML='<p>Error al cargar productos</p>'; return; }
-
-    let productos = data.products;
-    
-    // Aplicar filtros
-    if(searchQuery){
-      productos = productos.filter(p=>
-        p.nombre.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.descripcion.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      filterInfo.textContent = `Resultados para: "${searchQuery}"`;
-      filterInfo.classList.remove('hidden');
-    }
-    
-    if(categoriaFilter){
-      productos = productos.filter(p=>p.categoria === categoriaFilter);
-      filterInfo.textContent = `Categoría: ${categoriaFilter}`;
-      filterInfo.classList.remove('hidden');
-    }
-    
-    if(saborFilter){
-      productos = productos.filter(p=>p.sabor === saborFilter);
-      filterInfo.textContent = `Sabor: ${saborFilter}`;
-      filterInfo.classList.remove('hidden');
-    }
-
-    if(productos.length===0){ 
-      productsContainer.innerHTML='<p style="text-align:center;color:#999">No se encontraron productos</p>'; 
-      return; 
-    }
-
-    productsContainer.innerHTML = '';
-    productos.forEach(prod=>{
-      let carritoCount = 0;
-      if(currentUser && currentUser.carrito){
-        try { carritoCount = JSON.parse(currentUser.carrito).filter(id=>id===prod.id).length; } catch{}
-      }
-
-      const isAdmin = currentUser && currentUser.email === adminEmail;
-
-      const card = document.createElement('div');
-      card.className='product-card';
-      card.style.cursor='pointer';
-      card.innerHTML=`
-        <img src="${prod.imagen}" alt="${prod.nombre}" style="cursor:pointer">
-        <h3 style="cursor:pointer">${prod.nombre}</h3>
-        <p style="cursor:pointer">${prod.descripcion}</p>
-        <p>Cantidad: ${prod.cantidad || 'N/A'}</p>
-        <p>Sabor: ${prod.sabor || 'N/A'}</p>
-        <p>Stock: ${prod.stock}</p>
-        <p class="price" style="cursor:pointer">$${prod.precio || 0}</p>
-
-        <button onclick="agregarAlCarrito('${prod.id}'); event.stopPropagation();">
-          Añadir al carrito (<span id="cartCount-${prod.id}">${carritoCount}</span>)
-        </button>
-
-        ${isAdmin ? `
-        <button class="delete-btn" onclick="eliminarProducto('${prod.id}'); event.stopPropagation();">
-          ELIMINAR
-        </button>
-        ` : ""}
-      `;
-
-      // Evento click en la tarjeta para ir a especificación
-      card.addEventListener('click', ()=>{
-        window.location.href = `espec_producto.html?id=${prod.id}`;
-      });
-
-      productsContainer.appendChild(card);
-    });
-  }catch(err){ console.error(err); productsContainer.innerHTML='<p>Error al conectar con la DB.</p>'; }
+// Función de notificación
+function showNotification(message, type = 'success') {
+  let notification = document.getElementById('notification');
+  if (!notification) {
+    notification = document.createElement('div');
+    notification.id = 'notification';
+    notification.className = 'notification';
+    document.body.appendChild(notification);
+  }
+  
+  notification.textContent = message;
+  notification.className = `notification ${type}`;
+  notification.style.display = 'block';
+  
+  setTimeout(() => {
+    notification.style.display = 'none';
+  }, 3000);
 }
 
-cargarProductos();
+loadProducts();
 </script>
-
-<script>
-// Mantener la etiqueta flotada si el campo tiene valor (login)
-document.addEventListener('DOMContentLoaded', ()=>{
-  const inputs = document.querySelectorAll('.field input, .field textarea, .field select');
-  inputs.forEach(inp => {
-    const toggle = ()=>{
-      const parent = inp.closest('.field');
-      if(!parent) return;
-      if(inp.value && inp.value.trim() !== '') parent.classList.add('filled'); else parent.classList.remove('filled');
-    };
-    // Inicializar estado (por ejemplo, si hay valor en localStorage o autocompletado del navegador)
-    toggle();
-    inp.addEventListener('input', toggle);
-    inp.addEventListener('change', toggle);
-    // También manejar focus para animación inmediata
-    inp.addEventListener('focus', ()=>{
-      const parent = inp.closest('.field'); if(parent) parent.classList.add('focused');
-    });
-    inp.addEventListener('blur', ()=>{
-      const parent = inp.closest('.field'); if(parent) parent.classList.remove('focused');
-    });
-  });
-});
-</script>
-
-<!-- Footer -->
-<footer class="footer">
-  <div class="footer-container">
-    <div class="footer-column">
-      <h4>Nosotros</h4>
-      <a href="#">¿Quiénes Somos?</a>
-      <a href="#">Sucursales</a>
-      <a href="#">Contacto</a>
-      <a href="#">Blog</a>
-      <a href="productos.html">TODOS LOS PRODUCTOS</a>
-      <a href="#">Términos del servicio</a>
-      <a href="#">Política de reembolso</a>
-    </div>
-    <div class="footer-column">
-      <h4>Ayuda</h4>
-      <a href="#">¿Cómo comprar?</a>
-      <a href="#">Envíos</a>
-      <a href="#">Facturas</a>
-      <a href="#">Preguntas frecuentes</a>
-      <a href="#">Términos y condiciones</a>
-      <a href="#">Aviso de privacidad</a>
-    </div>
-    <div class="footer-column">
-      <h4>Comprar</h4>
-      <a href="productos.html">Descuentos</a>
-      <a href="#">Formas de Pago</a>
-      <a href="productos.html">Lo más buscado</a>
-      <a href="#">Mayoreo</a>
-      <a href="productos.html">Productos nuevos</a>
-    </div>
-  </div>
-</footer>
 
 </body>
 </html>

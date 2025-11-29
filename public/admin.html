@@ -4,203 +4,370 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Panel de Administración</title>
+<link rel="stylesheet" href="css/style.css">
 <style>
-body{font-family:Arial,sans-serif;background:#f4f4f4;margin:0;padding:0;}
-.container{max-width:700px;margin:40px auto;padding:20px;background:#fff;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.08);}
-h1{text-align:center;margin-bottom:12px;}
-.hidden{display:none;}
-.field{margin-bottom:12px;}
-label{display:block;margin-bottom:6px;font-weight:600;}
-input, select{width:100%;padding:10px;border-radius:6px;border:1px solid #ccc;font-size:14px}
-.btn{padding:12px 16px;border:none;border-radius:6px;background:#0a6bff;color:white;cursor:pointer;font-weight:700;}
-#status{margin-bottom:16px;font-weight:bold;text-align:center;padding:8px;border-radius:6px;}
-.success{color:#064e3b;background:#bbf7d0}
-.error{color:#7f1d1d;background:#fecaca}
-.small{font-size:13px;color:#6b7280;margin-top:6px}
-.row{display:flex;gap:12px}
-.row .field{flex:1}
-@media(max-width:600px){.row{flex-direction:column}}
+body{background:#f4f6f8}
+.admin-container{max-width:1400px;margin:40px auto;padding:20px}
+.admin-header{background:white;padding:20px;border-radius:12px;margin-bottom:20px;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+.admin-header h1{color:var(--primary);margin:0}
+.tabs{display:flex;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.tab-btn{padding:12px 24px;border:none;border-radius:8px;background:white;color:var(--text);cursor:pointer;font-weight:600;transition:0.2s;box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.tab-btn.active{background:var(--primary);color:white}
+.tab-content{display:none;background:white;padding:20px;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.08)}
+.tab-content.active{display:block}
+.field{margin-bottom:14px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{padding:12px 24px;border:none;border-radius:8px;background:var(--primary);color:white;cursor:pointer;font-weight:600;transition:0.2s}
+.btn:hover{background:#FF8AA8}
+.users-table,.pedidos-table{width:100%;border-collapse:collapse;margin-top:20px}
+.users-table th,.pedidos-table th{background:var(--primary);color:white;padding:12px;text-align:left}
+.users-table td,.pedidos-table td{padding:12px;border-bottom:1px solid #e0e0e0}
+.users-table tr:hover,.pedidos-table tr:hover{background:#f9f9f9}
+.status-badge{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600}
+.status-pendiente{background:#FFF3CD;color:#856404}
+.status-entregado{background:#D4EDDA;color:#155724}
+.btn-small{padding:6px 12px;font-size:12px;border-radius:6px;border:none;cursor:pointer;font-weight:600}
+.btn-success{background:#4CAF50;color:white}
+.btn-warning{background:#FFA726;color:white}
 </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>Panel de Administración</h1>
-  <div id="status" class="error">Verificando permisos...</div>
+<header class="header">
+  <div class="logo" onclick="window.location.href='index.html'" style="cursor:pointer">
+    <img src="img/logo.png" alt="logo">
+  </div>
+  
+  <div style="flex:1;text-align:center">
+    <h2 style="color:#FF9EB4;margin:0">🛠️ Panel de Administración</h2>
+  </div>
+  
+  <nav class="nav">
+    <button class="btn-icon" onclick="window.location.href='index.html'" style="background:#4CAF50">
+      🏠 Volver al Inicio
+    </button>
+  </nav>
+</header>
 
-  <form id="productForm" class="hidden" autocomplete="off">
-    <div class="field">
-      <label for="categoria">Categoría *</label>
-      <input type="text" id="categoria" placeholder="Ej: Dulces">
-    </div>
+<div class="admin-container">
+  <div class="admin-header">
+    <h1>🛠️ Panel de Administración</h1>
+    <p>Bienvenido, Admin</p>
+  </div>
 
-    <div class="field">
-      <label for="nombre">Nombre *</label>
-      <input type="text" id="nombre" placeholder="Nombre del producto">
-    </div>
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('productos')">Añadir Producto</button>
+    <button class="tab-btn" onclick="switchTab('usuarios')">Usuarios</button>
+    <button class="tab-btn" onclick="switchTab('pedidos')">Pedidos</button>
+  </div>
 
-    <div class="field">
-      <label for="imagen">Imagen (URL) *</label>
-      <input type="url" id="imagen" placeholder="https://...">
-      <div class="small">URL válida preferible (http/https). Si no tienes, pon una imagen genérica accesible por URL.</div>
-    </div>
-
-    <div class="field">
-      <label for="descripcion">Descripción *</label>
-      <input type="text" id="descripcion" placeholder="Descripción del producto">
-    </div>
-
-    <div class="row">
-      <div class="field">
-        <label for="stock">Stock *</label>
-        <input type="number" id="stock" value="0" min="0">
+  <!-- Tab: Añadir Producto -->
+  <div id="tab-productos" class="tab-content active">
+    <h2>Añadir Nuevo Producto</h2>
+    <form id="productForm">
+      <div class="field" style="position:relative;margin-bottom:20px">
+        <label for="categoria" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block;background:transparent;padding:0">Categoría *</label>
+        <input type="text" id="categoria" placeholder="Ej: Dulces, Chocolates, Gomitas" required style="margin-top:0">
+        <small style="color:#666;display:block;margin-top:4px">Escribe la categoría que quieras</small>
       </div>
 
-      <div class="field">
-        <label for="precio">Precio *</label>
-        <input type="number" id="precio" placeholder="Ej: 25" min="0" step="0.01">
-      </div>
-    </div>
-
-    <div class="field">
-      <label for="pais">País *</label>
-      <select id="pais">
-        <option value="">Selecciona país</option>
-        <option value="Bélgica">Bélgica 🇧🇪</option>
-        <option value="Japón">Japón 🇯🇵</option>
-        <option value="Estados Unidos">Estados Unidos 🇺🇸</option>
-        <option value="Francia">Francia 🇫🇷</option>
-        <option value="México">México 🇲🇽</option>
-        <option value="Reino Unido">Reino Unido 🇬🇧</option>
-        <option value="Suiza">Suiza 🇨🇭</option>
-        <option value="España">España 🇪🇸</option>
-      </select>
-    </div>
-
-    <div class="row">
-      <div class="field">
-        <label for="cantidad">Cantidad</label>
-        <input type="text" id="cantidad" placeholder="Ej: 1 paquete">
+      <div class="field" style="position:relative;margin-bottom:20px">
+        <label for="nombre" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block;background:transparent;padding:0">Nombre *</label>
+        <input type="text" id="nombre" placeholder="Nombre del producto" required style="margin-top:0">
       </div>
 
-      <div class="field">
-        <label for="sabor">Sabor</label>
-        <input type="text" id="sabor" placeholder="Ej: Chocolate">
+      <div class="field" style="position:relative;margin-bottom:20px">
+        <label for="imagen" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block;background:transparent;padding:0">Imagen (URL) *</label>
+        <input type="url" id="imagen" placeholder="https://..." required style="margin-top:0">
       </div>
-    </div>
 
-    <div style="text-align:center;margin-top:12px">
+      <div class="field" style="position:relative;margin-bottom:20px">
+        <label for="descripcion" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block;background:transparent;padding:0">Descripción *</label>
+        <textarea id="descripcion" rows="3" placeholder="Descripción del producto" required style="margin-top:0"></textarea>
+      </div>
+
+      <div class="row">
+        <div class="field" style="position:relative;margin-bottom:20px">
+          <label for="stock" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block;background:transparent;padding:0">Stock *</label>
+          <input type="number" id="stock" value="0" min="0" required style="margin-top:0">
+        </div>
+
+        <div class="field" style="position:relative;margin-bottom:20px">
+          <label for="precio" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block;background:transparent;padding:0">Precio *</label>
+          <input type="number" id="precio" placeholder="Ej: 25" min="0" step="0.01" required style="margin-top:0">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field" style="position:relative;margin-bottom:20px">
+          <label for="pais" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block;background:transparent;padding:0">País</label>
+          <input type="text" id="pais" placeholder="Ej: México" value="México" style="margin-top:0">
+        </div>
+
+        <div class="field" style="position:relative;margin-bottom:20px">
+          <label for="cantidad" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block;background:transparent;padding:0">Cantidad</label>
+          <input type="text" id="cantidad" placeholder="Ej: 100g" style="margin-top:0">
+        </div>
+      </div>
+
+      <div class="field" style="position:relative;margin-bottom:20px">
+        <label for="sabor" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block;background:transparent;padding:0">Sabor</label>
+        <input type="text" id="sabor" placeholder="Ej: Chocolate" style="margin-top:0">
+      </div>
+
       <button type="submit" class="btn">Agregar Producto</button>
-    </div>
-  </form>
+    </form>
+  </div>
+
+  <!-- Tab: Usuarios -->
+  <div id="tab-usuarios" class="tab-content">
+    <h2>Usuarios Registrados</h2>
+    <div id="usersContainer">Cargando...</div>
+  </div>
+
+  <!-- Tab: Pedidos -->
+  <div id="tab-pedidos" class="tab-content">
+    <h2>Gestión de Pedidos</h2>
+    <div id="pedidosContainer">Cargando...</div>
+  </div>
 </div>
 
+<div id="notification" class="notification"></div>
+
+<script src="cart.js"></script>
 <script>
-// ---------- Permisos ----------
-const statusEl = document.getElementById('status');
-const form = document.getElementById('productForm');
+// Verificar que sea admin
+const adminEmail = 'langosta@admin.com';
+const currentUser = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null;
 
-let currentUser = null;
-try { currentUser = JSON.parse(localStorage.getItem('user')); } catch(e){ currentUser = null; }
-
-// Usa exactamente el correo que guardas en users para admin:
-const adminEmail = "langosta@admin.com";
-
-function denyRedirect() {
-  statusEl.className = 'error';
-  statusEl.textContent = "Error: No tienes permisos. Redirigiendo...";
-  setTimeout(()=> window.location.href = 'index.html', 1600);
+// Solo permitir acceso si el usuario es el admin
+if (!currentUser || currentUser.email !== adminEmail) {
+  alert('⛔ Acceso denegado. Solo administradores pueden acceder a esta página.');
+  window.location.href = 'index.html';
 }
 
-if (!currentUser || !currentUser.email || currentUser.email.toLowerCase() !== adminEmail) {
-  denyRedirect();
-} else {
-  statusEl.className = 'success';
-  statusEl.textContent = "Bienvenido Administrador — completa el formulario";
-  form.classList.remove('hidden');
+let currentTab = 'productos';
+
+function switchTab(tab) {
+  currentTab = tab;
+  
+  // Actualizar botones
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  // Actualizar contenido
+  document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  
+  // Cargar datos según la tab
+  if (tab === 'usuarios') loadUsers();
+  if (tab === 'pedidos') loadPedidos();
 }
 
-// ---------- Envío ----------
-function setStatus(msg, ok=false) {
-  statusEl.className = ok ? 'success' : 'error';
-  statusEl.textContent = msg;
-}
-
-form.addEventListener('submit', async (e) => {
+// Añadir producto
+document.getElementById('productForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  setStatus('Validando datos...', true);
-
-  const categoria = document.getElementById('categoria').value.trim();
-  const nombre = document.getElementById('nombre').value.trim();
-  const imagen = document.getElementById('imagen').value.trim();
-  const descripcion = document.getElementById('descripcion').value.trim();
-  const stockRaw = document.getElementById('stock').value;
-  const precioRaw = document.getElementById('precio').value;
-  const pais = document.getElementById('pais').value;
-  const cantidad = document.getElementById('cantidad').value.trim();
-  const sabor = document.getElementById('sabor').value.trim();
-
-  // validación local
-  if (!categoria || !nombre || !imagen || !descripcion || !pais) {
-    setStatus('Faltan datos obligatorios: categoría, nombre, imagen, descripción o país.', false);
-    return;
-  }
-
-  const stock = Number(stockRaw);
-  const precio = Number(precioRaw);
-
-  if (!Number.isFinite(stock) || stock < 0) {
-    setStatus('Stock inválido. Debe ser número >= 0.', false);
-    return;
-  }
-  if (!Number.isFinite(precio) || precio < 0) {
-    setStatus('Precio inválido. Debe ser número >= 0.', false);
-    return;
-  }
-
-  const payload = {
-    categoria, nombre, imagen, descripcion,
-    stock: Math.floor(stock),
-    pais,
-    cantidad: cantidad || null,
-    sabor: sabor || null,
-    precio: Number(precio.toFixed(2))
+  
+  const producto = {
+    categoria: document.getElementById('categoria').value.trim(),
+    nombre: document.getElementById('nombre').value.trim(),
+    imagen: document.getElementById('imagen').value.trim(),
+    descripcion: document.getElementById('descripcion').value.trim(),
+    stock: parseInt(document.getElementById('stock').value),
+    precio: parseFloat(document.getElementById('precio').value),
+    pais: document.getElementById('pais').value.trim(),
+    cantidad: document.getElementById('cantidad').value.trim(),
+    sabor: document.getElementById('sabor').value.trim()
   };
-
-  console.log("ENVIANDO addProducto payload:", payload);
-
-  setStatus('Enviando producto al servidor...', true);
-
+  
   try {
     const res = await fetch('/.netlify/functions/addProducto', {
       method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify(payload)
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(producto)
     });
-
-    const data = await res.json().catch(()=>null);
-
-    if (!res.ok) {
-      const msg = data && data.message ? data.message : `Error servidor (${res.status})`;
-      setStatus(`Error: ${msg}`, false);
-      console.error("Respuesta addProducto (no ok):", res.status, data);
-      return;
-    }
-
-    if (data && data.success) {
-      setStatus('Producto agregado con éxito ✅', true);
-      form.reset();
+    
+    const data = await res.json();
+    
+    if (data.success) {
+      showNotification('Producto añadido correctamente', 'success');
+      document.getElementById('productForm').reset();
     } else {
-      const msg = data && data.message ? data.message : 'Respuesta inesperada del servidor';
-      setStatus(`Error: ${msg}`, false);
-      console.error("Respuesta addProducto:", data);
+      showNotification('Error al añadir producto', 'error');
     }
-
   } catch (err) {
-    console.error("ERROR AL ENVIAR addProducto:", err);
-    setStatus('Error de conexión al servidor', false);
+    console.error(err);
+    showNotification('Error de conexión', 'error');
   }
 });
+
+// Cargar usuarios
+async function loadUsers() {
+  try {
+    const res = await fetch('/.netlify/functions/getAllUsers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ adminEmail })
+    });
+    
+    const data = await res.json();
+    
+    if (data.success) {
+      const container = document.getElementById('usersContainer');
+      
+      if (data.users.length === 0) {
+        container.innerHTML = '<p>No hay usuarios registrados</p>';
+        return;
+      }
+      
+      container.innerHTML = `
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Email</th>
+              <th>Fecha Nacimiento</th>
+              <th>Carrito</th>
+              <th>Favoritos</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${data.users.map(user => {
+              const carrito = JSON.parse(user.carrito || '[]');
+              const favoritos = JSON.parse(user.favoritos || '[]');
+              return `
+                <tr>
+                  <td>${user.id}</td>
+                  <td>${user.name}</td>
+                  <td>${user.email}</td>
+                  <td>${user.birthdate ? new Date(user.birthdate).toLocaleDateString('es-MX') : 'N/A'}</td>
+                  <td>${carrito.length} items</td>
+                  <td>${favoritos.length} items</td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+  } catch (err) {
+    console.error(err);
+    document.getElementById('usersContainer').innerHTML = '<p>Error al cargar usuarios</p>';
+  }
+}
+
+// Cargar pedidos
+async function loadPedidos() {
+  try {
+    const res = await fetch('/.netlify/functions/getAllUsers', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ adminEmail })
+    });
+    
+    const data = await res.json();
+    
+    if (data.success) {
+      const container = document.getElementById('pedidosContainer');
+      
+      if (data.pedidos.length === 0) {
+        container.innerHTML = '<p>No hay pedidos registrados</p>';
+        return;
+      }
+      
+      container.innerHTML = `
+        <table class="pedidos-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Usuario</th>
+              <th>Productos</th>
+              <th>Fecha</th>
+              <th>Dirección</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${data.pedidos.map(pedido => {
+              const fecha = new Date(pedido.fecha).toLocaleDateString('es-MX');
+              const direccion = pedido.direccion ? 
+                `${pedido.direccion}, ${pedido.ciudad}, ${pedido.estado}` : 
+                'Sin datos';
+              
+              return `
+                <tr>
+                  <td>${pedido.id}</td>
+                  <td>${pedido.usuario}</td>
+                  <td>${pedido.productos.length} items</td>
+                  <td>${fecha}</td>
+                  <td>${direccion}</td>
+                  <td>
+                    <span class="status-badge ${pedido.entregado ? 'status-entregado' : 'status-pendiente'}">
+                      ${pedido.entregado ? '✓ Entregado' : '⏱ Pendiente'}
+                    </span>
+                  </td>
+                  <td>
+                    ${pedido.entregado ? 
+                      `<button class="btn-small btn-warning" onclick="updateStatus(${pedido.id}, false)">Marcar Pendiente</button>` :
+                      `<button class="btn-small btn-success" onclick="updateStatus(${pedido.id}, true)">Marcar Entregado</button>`
+                    }
+                  </td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+  } catch (err) {
+    console.error(err);
+    document.getElementById('pedidosContainer').innerHTML = '<p>Error al cargar pedidos</p>';
+  }
+}
+
+// Actualizar estado de pedido
+async function updateStatus(pedidoId, entregado) {
+  try {
+    const res = await fetch('/.netlify/functions/updatePedidoStatus', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ adminEmail, pedidoId, entregado })
+    });
+    
+    const data = await res.json();
+    
+    if (data.success) {
+      showNotification('Estado actualizado correctamente', 'success');
+      loadPedidos();
+    } else {
+      showNotification('Error al actualizar estado', 'error');
+    }
+  } catch (err) {
+    console.error(err);
+    showNotification('Error de conexión', 'error');
+  }
+}
+
+// Función de notificación
+function showNotification(message, type = 'success') {
+  let notification = document.getElementById('notification');
+  if (!notification) {
+    notification = document.createElement('div');
+    notification.id = 'notification';
+    notification.className = 'notification';
+    document.body.appendChild(notification);
+  }
+  
+  notification.textContent = message;
+  notification.className = `notification ${type}`;
+  notification.style.display = 'block';
+  
+  setTimeout(() => {
+    notification.style.display = 'none';
+  }, 3000);
+}
 </script>
 
 </body>

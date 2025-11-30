@@ -631,7 +631,7 @@ function setUserUI(user){
       }
     }
 
-    // --- ADMIN: agregar botón de "Añadir Producto" ---
+    // --- ADMIN: agregar botón de "Panel de Administrador" ---
     let adminBtn = null;
     if (profileModalContent) adminBtn = profileModalContent.querySelector('#addProductBtn');
     if(user.email === 'langosta@admin.com') {
@@ -639,7 +639,7 @@ function setUserUI(user){
         adminBtn = document.createElement('button');
         adminBtn.id = 'addProductBtn';
         adminBtn.className = 'btn';
-        adminBtn.textContent = 'Añadir Producto';
+        adminBtn.textContent = '🛠️ Panel de Administrador';
         adminBtn.style.marginTop = '10px';
         adminBtn.addEventListener('click', ()=>{
           window.location.href = 'admin.html';

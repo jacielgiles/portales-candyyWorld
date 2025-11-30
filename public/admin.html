@@ -43,7 +43,7 @@ body{background:#f4f6f8}
   </div>
   
   <nav class="nav">
-    <button class="btn-icon" onclick="window.location.href='index.html'" style="background:#4CAF50">
+    <button class="btn-icon" onclick="window.location.href='index.html'" style="background:#FF9EB4;color:white;padding:10px 20px;border-radius:8px;font-weight:600;transition:0.2s" onmouseover="this.style.background='#FF8AA8'" onmouseout="this.style.background='#FF9EB4'">
       🏠 Volver al Inicio
     </button>
   </nav>
@@ -59,6 +59,7 @@ body{background:#f4f6f8}
     <button class="tab-btn active" onclick="switchTab('productos')">Añadir Producto</button>
     <button class="tab-btn" onclick="switchTab('usuarios')">Usuarios</button>
     <button class="tab-btn" onclick="switchTab('pedidos')">Pedidos</button>
+    <button class="tab-btn" onclick="switchTab('eliminar')">Eliminar Productos</button>
   </div>
 
   <!-- Tab: Añadir Producto -->
@@ -130,6 +131,12 @@ body{background:#f4f6f8}
     <h2>Gestión de Pedidos</h2>
     <div id="pedidosContainer">Cargando...</div>
   </div>
+
+  <!-- Tab: Eliminar Productos -->
+  <div id="tab-eliminar" class="tab-content">
+    <h2>Eliminar Productos</h2>
+    <div id="productosContainer">Cargando...</div>
+  </div>
 </div>
 
 <div id="notification" class="notification"></div>
@@ -162,6 +169,7 @@ function switchTab(tab) {
   // Cargar datos según la tab
   if (tab === 'usuarios') loadUsers();
   if (tab === 'pedidos') loadPedidos();
+  if (tab === 'eliminar') loadProductos();
 }
 
 // Añadir producto
@@ -343,6 +351,89 @@ async function updateStatus(pedidoId, entregado) {
       loadPedidos();
     } else {
       showNotification('Error al actualizar estado', 'error');
+    }
+  } catch (err) {
+    console.error(err);
+    showNotification('Error de conexión', 'error');
+  }
+}
+
+// Cargar productos para eliminar
+async function loadProductos() {
+  try {
+    const res = await fetch('/.netlify/functions/getProductos', {
+      method: 'POST'
+    });
+    
+    const data = await res.json();
+    
+    if (data.success) {
+      const container = document.getElementById('productosContainer');
+      
+      if (data.products.length === 0) {
+        container.innerHTML = '<p>No hay productos registrados</p>';
+        return;
+      }
+      
+      container.innerHTML = `
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Imagen</th>
+              <th>Nombre</th>
+              <th>Categoría</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${data.products.map(prod => `
+              <tr>
+                <td>${prod.id}</td>
+                <td><img src="${prod.imagen}" alt="${prod.nombre}" style="width:50px;height:50px;object-fit:cover;border-radius:8px" onerror="this.src='img/banner1.jpg'"></td>
+                <td>${prod.nombre}</td>
+                <td>${prod.categoria}</td>
+                <td>$${prod.precio}</td>
+                <td>${prod.stock}</td>
+                <td>
+                  <button class="btn-small" style="background:#f44336;color:white" onclick="deleteProducto(${prod.id}, '${prod.nombre.replace(/'/g, "\\'")}')">
+                    🗑️ Eliminar
+                  </button>
+                </td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+    }
+  } catch (err) {
+    console.error(err);
+    document.getElementById('productosContainer').innerHTML = '<p>Error al cargar productos</p>';
+  }
+}
+
+// Eliminar producto
+async function deleteProducto(productId, productName) {
+  if (!confirm(`¿Estás seguro de eliminar el producto "${productName}"?`)) {
+    return;
+  }
+  
+  try {
+    const res = await fetch('/.netlify/functions/deleteProducto', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ productId })
+    });
+    
+    const data = await res.json();
+    
+    if (data.success) {
+      showNotification('Producto eliminado correctamente', 'success');
+      loadProductos(); // Recargar la lista
+    } else {
+      showNotification(data.message || 'Error al eliminar producto', 'error');
     }
   } catch (err) {
     console.error(err);

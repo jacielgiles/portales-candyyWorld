@@ -12,7 +12,7 @@ export async function handler(event) {
     await client.connect();
 
     const result = await client.query(
-      "SELECT id, categoria, nombre, imagen, descripcion, cantidad, sabor, stock, precio, pais FROM productos ORDER BY id ASC"
+      "SELECT id, categoria, nombre, imagen, descripcion, cantidad, sabor, stock, precio, pais, marca FROM productos ORDER BY id ASC"
     );
 
     return {

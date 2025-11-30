@@ -22,7 +22,8 @@ export async function handler(event) {
     pais,
     cantidad,
     sabor,
-    precio
+    precio,
+    marca
   } = data;
 
   // ---- VALIDACIÓN ----
@@ -44,8 +45,8 @@ export async function handler(event) {
     await client.connect();
 
     const query = `
-      INSERT INTO productos (categoria, nombre, imagen, descripcion, stock, pais, cantidad, sabor, precio)
-      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)
+      INSERT INTO productos (categoria, nombre, imagen, descripcion, stock, pais, cantidad, sabor, precio, marca)
+      VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
       RETURNING id
     `;
 
@@ -58,7 +59,8 @@ export async function handler(event) {
       pais,
       cantidad,
       sabor,
-      parseFloat(precio)
+      parseFloat(precio),
+      marca || null
     ];
 
     const result = await client.query(query, values);

@@ -299,6 +299,7 @@
       <h1 id="productName"></h1>
       
       <div class="product-meta">
+        <div><strong>Marca</strong><span id="productMarca"></span></div>
         <div><strong>Categoría</strong><span id="productCategory"></span></div>
         <div><strong>Sabor</strong><span id="productSabor"></span></div>
         <div><strong>País de Origen</strong><span id="productPais"></span></div>
@@ -366,10 +367,11 @@ async function loadProduct() {
     currentProduct = product;
     
     document.getElementById('productName').textContent = product.nombre;
-    document.getElementById('productCategory').textContent = product.categoria || 'N/A';
-    document.getElementById('productSabor').textContent = product.sabor || 'N/A';
+    document.getElementById('productMarca').textContent = product.marca || 'CandyyWorld';
+    document.getElementById('productCategory').textContent = product.categoria || 'Dulces';
+    document.getElementById('productSabor').textContent = product.sabor || 'Variado';
     document.getElementById('productPais').textContent = product.pais || 'México';
-    document.getElementById('productCantidad').textContent = product.cantidad || 'N/A';
+    document.getElementById('productCantidad').textContent = product.cantidad || '1 pieza';
     document.getElementById('productStock').textContent = `${product.stock || '0'} unidades`;
     document.getElementById('productPrice').textContent = `$${parseFloat(product.precio).toFixed(2)} MXN`;
     document.getElementById('productDescription').textContent = product.descripcion || 'Sin descripción disponible';

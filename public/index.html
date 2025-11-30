@@ -312,7 +312,12 @@
 
 <main class="container">
   <!-- PRODUCTOS RECOMENDADOS -->
-  <h2 class="section-title">Recomendado</h2>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:24px">
+    <h2 class="section-title" style="margin:0">Recomendado</h2>
+    <a href="productos.html" style="color:#FF9EB4;font-weight:600;text-decoration:none;font-size:16px;transition:0.2s;font-family:var(--font-main)" onmouseover="this.style.color='#FF8AA8'" onmouseout="this.style.color='#FF9EB4'">
+      Ver todo →
+    </a>
+  </div>
   <div id="featuredProducts" class="products-slider"></div>
 
   <!-- PROMOCIONES -->
@@ -467,42 +472,56 @@
 
 <!-- DATOS DE ENVÍO MODAL -->
 <div id="envioModal" class="modal-back" style="display:none">
-  <div class="modal" style="width:600px;max-height:90vh;overflow-y:auto">
+  <div class="modal" style="width:650px;max-height:92vh;overflow-y:auto;padding:28px">
     <button class="close-btn" id="closeEnvioModal">&times;</button>
-    <h3>Datos de Entrega y Pago</h3>
+    <h3 style="margin-bottom:24px;font-size:24px;color:#FF9EB4;text-align:center">📦 Datos de Entrega y Pago</h3>
     
     <form id="envioForm" onsubmit="event.preventDefault(); procesarCompra();">
-      <h4 style="margin:16px 0 8px 0;color:#FF9EB4">Datos de Entrega</h4>
+      <!-- Botón para cargar datos guardados -->
+      <div id="botonDatosGuardados" style="display:none;margin-bottom:20px">
+        <button type="button" class="btn" style="width:100%;background:#4CAF50;display:flex;align-items:center;justify-content:center;gap:8px" onclick="cargarDatosGuardadosManual()">
+          <span>💾</span>
+          <span>Usar información guardada</span>
+        </button>
+      </div>
+      
+      <!-- Mensaje de datos cargados -->
+      <div id="mensajeDatosGuardados" style="display:none;background:#E8F5E9;padding:12px;border-radius:8px;margin-bottom:16px;border-left:4px solid #4CAF50">
+        <strong style="color:#2E7D32">✓ Datos guardados cargados</strong>
+        <p style="margin:4px 0 0 0;font-size:13px;color:#666">Puedes modificarlos si lo deseas.</p>
+      </div>
+      
+      <h4 style="margin:16px 0 12px 0;color:#FF9EB4;font-size:18px;font-weight:700">📦 Datos de Entrega</h4>
       
       <div class="field">
-        <input id="envioNombre" type="text" required>
+        <input id="envioNombre" type="text" required autocomplete="name">
         <label for="envioNombre">Nombre Completo *</label>
       </div>
       
       <div class="field">
-        <input id="envioTelefono" type="tel" required>
+        <input id="envioTelefono" type="tel" required autocomplete="tel">
         <label for="envioTelefono">Teléfono *</label>
       </div>
       
       <div class="field">
-        <input id="envioDireccion" type="text" required>
+        <input id="envioDireccion" type="text" required autocomplete="street-address">
         <label for="envioDireccion">Dirección *</label>
       </div>
       
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
         <div class="field">
-          <input id="envioCiudad" type="text" required>
+          <input id="envioCiudad" type="text" required autocomplete="address-level2">
           <label for="envioCiudad">Ciudad *</label>
         </div>
         
         <div class="field">
-          <input id="envioEstado" type="text" required>
+          <input id="envioEstado" type="text" required autocomplete="address-level1">
           <label for="envioEstado">Estado *</label>
         </div>
       </div>
       
       <div class="field">
-        <input id="envioCP" type="text" required>
+        <input id="envioCP" type="text" required autocomplete="postal-code">
         <label for="envioCP">Código Postal *</label>
       </div>
       
@@ -511,44 +530,56 @@
         <label for="envioReferencias">Referencias (opcional)</label>
       </div>
       
-      <h4 style="margin:16px 0 8px 0;color:#FF9EB4">Método de Pago</h4>
+      <!-- Checkbox para guardar datos -->
+      <div style="margin:16px 0">
+        <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:14px;font-family:var(--font-main)">
+          <input type="checkbox" id="guardarDatosEnvio" style="width:18px;height:18px;cursor:pointer">
+          <span>💾 Guardar estos datos para futuras compras</span>
+        </label>
+      </div>
+      
+      <h4 style="margin:24px 0 12px 0;color:#FF9EB4;font-size:18px;font-weight:700">💳 Método de Pago</h4>
       
       <div class="field">
         <select id="metodoPago" required onchange="toggleTarjetaFields()">
           <option value="">Selecciona un método</option>
-          <option value="tarjeta">Tarjeta de Crédito/Débito</option>
-          <option value="efectivo">Efectivo</option>
-          <option value="transferencia">Transferencia Bancaria</option>
+          <option value="tarjeta">💳 Tarjeta de Crédito/Débito</option>
+          <option value="efectivo">💵 Efectivo</option>
+          <option value="transferencia">🏦 Transferencia Bancaria</option>
         </select>
         <label for="metodoPago">Método de Pago *</label>
       </div>
       
-      <div id="tarjetaFields" style="display:none">
+      <div id="tarjetaFields" style="display:none;margin-top:16px;padding:16px;background:#f9f9f9;border-radius:8px">
+        <p style="margin:0 0 12px 0;font-size:13px;color:#666;font-family:var(--font-main)">
+          <strong>Nota:</strong> Los datos de tarjeta no se guardan por seguridad.
+        </p>
+        
         <div class="field">
-          <input id="nombreTarjeta" type="text">
+          <input id="nombreTarjeta" type="text" autocomplete="cc-name">
           <label for="nombreTarjeta">Nombre en la Tarjeta</label>
         </div>
         
         <div class="field">
-          <input id="numeroTarjeta" type="text" maxlength="16">
+          <input id="numeroTarjeta" type="text" maxlength="19" autocomplete="cc-number" placeholder="1234 5678 9012 3456">
           <label for="numeroTarjeta">Número de Tarjeta</label>
         </div>
         
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
           <div class="field">
-            <input id="fechaExpiracion" type="text" placeholder="MM/AA">
-            <label for="fechaExpiracion">Fecha de Expiración</label>
+            <input id="fechaExpiracion" type="text" placeholder="MM/AA" maxlength="5" autocomplete="cc-exp">
+            <label for="fechaExpiracion">Expiración</label>
           </div>
           
           <div class="field">
-            <input id="cvv" type="text" maxlength="3">
+            <input id="cvv" type="text" maxlength="4" autocomplete="cc-csc" placeholder="123">
             <label for="cvv">CVV</label>
           </div>
         </div>
       </div>
       
-      <button type="submit" class="btn" style="width:100%;margin-top:20px;background:#FF9EB4">
-        Confirmar Compra
+      <button type="submit" class="btn" style="width:100%;margin-top:24px;background:#FF9EB4;padding:14px;font-size:16px;font-weight:700">
+        ✓ Confirmar Compra
       </button>
     </form>
   </div>
@@ -970,8 +1001,9 @@ async function loadFeaturedProducts(){
       <div class="product-card-mini" onclick="window.location.href='espec_producto.html?id=${prod.id}'">
         <img src="${prod.imagen}" alt="${prod.nombre}" onerror="this.src='img/banner1.jpg'">
         <h3>${prod.nombre}</h3>
+        ${prod.marca ? `<p style="font-size:12px;color:#FF9EB4;font-weight:600;margin:0 0 4px 0">🏷️ ${prod.marca}</p>` : ''}
         <p>${prod.descripcion.substring(0, 40)}...</p>
-        <p class="price">$${prod.precio}</p>
+        <p class="price">$${parseFloat(prod.precio).toFixed(2)}</p>
       </div>
     `).join('');
   }catch(err){console.error(err);}

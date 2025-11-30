@@ -158,13 +158,13 @@
 
 .filter-info{text-align:center;margin-bottom:16px;padding:10px;background:#fff5f8;border:1px solid var(--primary);border-radius:8px;color:var(--primary);font-weight:600}
 .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px}
-.product-card{background:white;border:1px solid #e0e0e0;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06);transition:transform 0.2s,box-shadow 0.2s;cursor:pointer}
+.product-card{background:white;border:1px solid #e0e0e0;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,0.06);transition:transform 0.2s,box-shadow 0.2s;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;min-height:380px}
 .product-card:hover{transform:translateY(-4px);box-shadow:0 6px 16px rgba(0,0,0,0.12)}
-.product-card img{width:100%;border-radius:8px;height:180px;object-fit:cover}
-.product-card h3{margin:12px 0 6px;font-size:18px;color:#333}
-.product-card p{margin:4px 0;font-size:14px;color:#555}
-.product-card .price{font-weight:bold;color:var(--primary);margin-top:6px;font-size:16px}
-.product-card button{margin-top:10px;padding:8px 14px;border-radius:8px;border:none;background:var(--primary);color:white;font-weight:600;cursor:pointer;transition:0.2s}
+.product-card img{width:100%;border-radius:8px;height:180px;object-fit:cover;margin-bottom:12px}
+.product-card h3{margin:0 0 8px 0;font-size:18px;color:#333;min-height:48px;display:flex;align-items:center;justify-content:center}
+.product-card p{margin:4px 0;font-size:14px;color:#555;flex:1}
+.product-card .price{font-weight:bold;color:var(--primary);margin:8px 0;font-size:18px}
+.product-card button{margin-top:auto;padding:10px 16px;border-radius:8px;border:none;background:var(--primary);color:white;font-weight:600;cursor:pointer;transition:0.2s;width:100%}
 .product-card button:hover{background:#FF8AA8}
 
 @media (max-width: 1024px) {
@@ -477,6 +477,11 @@
     </div>
     
     <div class="filter-section">
+      <h4>Marca</h4>
+      <div id="filterMarca"></div>
+    </div>
+    
+    <div class="filter-section">
       <h4>Precio</h4>
       <div class="price-inputs">
         <div class="price-input-group">
@@ -568,9 +573,10 @@ async function loadProducts() {
 }
 
 function loadFilters() {
-  // Obtener categorías y sabores únicos
+  // Obtener categorías, sabores y marcas únicos
   const categorias = [...new Set(allProducts.map(p => p.categoria))];
   const sabores = [...new Set(allProducts.map(p => p.sabor))];
+  const marcas = [...new Set(allProducts.map(p => p.marca).filter(m => m))];
   
   // Cargar filtro de categorías
   const filterCategoria = document.getElementById('filterCategoria');
@@ -587,6 +593,15 @@ function loadFilters() {
     <label>
       <input type="checkbox" value="${sab}" onchange="applyFilters()">
       ${sab}
+    </label>
+  `).join('');
+  
+  // Cargar filtro de marcas
+  const filterMarca = document.getElementById('filterMarca');
+  filterMarca.innerHTML = marcas.map(marca => `
+    <label>
+      <input type="checkbox" value="${marca}" onchange="applyFilters()">
+      ${marca}
     </label>
   `).join('');
   
@@ -610,6 +625,7 @@ function applyFilters() {
   // Obtener filtros seleccionados
   const selectedCategorias = Array.from(document.querySelectorAll('#filterCategoria input:checked')).map(cb => cb.value);
   const selectedSabores = Array.from(document.querySelectorAll('#filterSabor input:checked')).map(cb => cb.value);
+  const selectedMarcas = Array.from(document.querySelectorAll('#filterMarca input:checked')).map(cb => cb.value);
   const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
   const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
   const sortBy = document.getElementById('sortBy').value;
@@ -618,10 +634,11 @@ function applyFilters() {
   filteredProducts = allProducts.filter(prod => {
     const matchCategoria = selectedCategorias.length === 0 || selectedCategorias.includes(prod.categoria);
     const matchSabor = selectedSabores.length === 0 || selectedSabores.includes(prod.sabor);
+    const matchMarca = selectedMarcas.length === 0 || selectedMarcas.includes(prod.marca);
     const precio = parseFloat(prod.precio);
     const matchPrice = precio >= minPrice && precio <= maxPrice;
     
-    return matchCategoria && matchSabor && matchPrice;
+    return matchCategoria && matchSabor && matchMarca && matchPrice;
   });
   
   // Ordenar productos
@@ -644,11 +661,13 @@ function updateFilterInfo() {
   const filterInfo = document.getElementById('filterInfo');
   const selectedCategorias = Array.from(document.querySelectorAll('#filterCategoria input:checked')).map(cb => cb.value);
   const selectedSabores = Array.from(document.querySelectorAll('#filterSabor input:checked')).map(cb => cb.value);
+  const selectedMarcas = Array.from(document.querySelectorAll('#filterMarca input:checked')).map(cb => cb.value);
   
-  if (selectedCategorias.length > 0 || selectedSabores.length > 0) {
+  if (selectedCategorias.length > 0 || selectedSabores.length > 0 || selectedMarcas.length > 0) {
     let infoText = '';
     if (selectedCategorias.length > 0) infoText += `Categorías: ${selectedCategorias.join(', ')}`;
     if (selectedSabores.length > 0) infoText += (infoText ? ' | ' : '') + `Sabores: ${selectedSabores.join(', ')}`;
+    if (selectedMarcas.length > 0) infoText += (infoText ? ' | ' : '') + `Marcas: ${selectedMarcas.join(', ')}`;
     filterInfo.textContent = infoText;
     filterInfo.classList.remove('hidden');
   } else {
@@ -658,7 +677,7 @@ function updateFilterInfo() {
 
 function clearFilters() {
   // Limpiar checkboxes
-  document.querySelectorAll('#filterCategoria input, #filterSabor input').forEach(cb => cb.checked = false);
+  document.querySelectorAll('#filterCategoria input, #filterSabor input, #filterMarca input').forEach(cb => cb.checked = false);
   
   // Resetear precio
   const maxPrice = Math.max(...allProducts.map(p => parseFloat(p.precio)));

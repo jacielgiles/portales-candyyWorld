@@ -77,8 +77,11 @@ function setUserUI(user) {
         adminBtn = document.createElement('button');
         adminBtn.id = 'addProductBtn';
         adminBtn.className = 'btn';
-        adminBtn.textContent = 'Añadir Producto';
+        adminBtn.textContent = '🛠️ Panel de Administración';
         adminBtn.style.marginTop = '10px';
+        adminBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+        adminBtn.style.color = 'white';
+        adminBtn.style.fontWeight = '600';
         adminBtn.addEventListener('click', () => {
           window.location.href = 'admin.html';
         });

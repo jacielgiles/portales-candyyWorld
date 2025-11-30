@@ -116,6 +116,12 @@ body{background:#f4f6f8}
         <input type="text" id="sabor" placeholder="Ej: Chocolate" style="margin-top:0">
       </div>
 
+      <div class="field" style="position:relative;margin-bottom:20px">
+        <label for="marca" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block;background:transparent;padding:0">Marca *</label>
+        <input type="text" id="marca" placeholder="Ej: Hershey's, Ferrero, Ricolino" required style="margin-top:0">
+        <small style="color:#666;display:block;margin-top:4px">La marca del producto</small>
+      </div>
+
       <button type="submit" class="btn">Agregar Producto</button>
     </form>
   </div>
@@ -185,7 +191,8 @@ document.getElementById('productForm').addEventListener('submit', async (e) => {
     precio: parseFloat(document.getElementById('precio').value),
     pais: document.getElementById('pais').value.trim(),
     cantidad: document.getElementById('cantidad').value.trim(),
-    sabor: document.getElementById('sabor').value.trim()
+    sabor: document.getElementById('sabor').value.trim(),
+    marca: document.getElementById('marca').value.trim()
   };
   
   try {

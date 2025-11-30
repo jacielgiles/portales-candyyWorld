@@ -174,6 +174,35 @@
     <button class="close-btn" id="closeEnvioModal">&times;</button>
     <h3>Datos de Entrega y Pago</h3>
     
+    <!-- Switches para usar y guardar datos - MÁS VISIBLES -->
+    <div style="background:linear-gradient(135deg, #E8F5E9 0%, #F1F8E9 100%);padding:20px;border-radius:12px;margin-bottom:24px;display:flex;flex-direction:column;gap:16px;border:3px solid #4CAF50;box-shadow:0 4px 12px rgba(76,175,80,0.2)">
+      <!-- Switch: Usar datos guardados -->
+      <div style="display:flex;justify-content:space-between;align-items:center;background:white;padding:16px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
+        <div>
+          <strong style="color:#2E7D32;font-size:17px;font-weight:700">📋 Usar datos guardados</strong>
+          <br>
+          <small style="color:#666;font-size:13px">Cargar mis datos de envío anteriores</small>
+        </div>
+        <label class="switch" style="width:70px;height:35px">
+          <input type="checkbox" id="usarDatosGuardadosSwitch" onchange="toggleUsarDatosGuardados()">
+          <span class="slider"></span>
+        </label>
+      </div>
+      
+      <!-- Switch: Guardar datos -->
+      <div style="display:flex;justify-content:space-between;align-items:center;background:white;padding:16px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
+        <div>
+          <strong style="color:#2E7D32;font-size:17px;font-weight:700">💾 Guardar datos</strong>
+          <br>
+          <small style="color:#666;font-size:13px">Guardar para futuras compras</small>
+        </div>
+        <label class="switch" style="width:70px;height:35px">
+          <input type="checkbox" id="guardarDatosSwitch" onchange="toggleGuardarDatosSwitch()">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+    
     <form id="envioForm" onsubmit="event.preventDefault(); procesarCompra();">
       <h4 style="margin:16px 0 8px 0;color:#FF9EB4">Datos de Entrega</h4>
       

@@ -20,7 +20,7 @@ export async function handler(event) {
     await client.connect();
 
     const result = await client.query(
-      "SELECT id, name, email, birthdate, pedidos FROM users WHERE email=$1 AND password=$2",
+      "SELECT id, name, email, birthdate, pedidos, puntos, marca, carrito, favoritos FROM users WHERE email=$1 AND password=$2",
       [email, password]
     );
 

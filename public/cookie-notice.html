@@ -1,0 +1,49 @@
+<!-- NOTIFICACIÓN DE COOKIES -->
+<div id="cookieNotice" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:3px solid #FF9EB4;padding:20px;box-shadow:0 -4px 12px rgba(0,0,0,0.15);z-index:10000">
+  <div style="max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap">
+    <div style="flex:1;min-width:300px">
+      <h4 style="margin:0 0 8px 0;color:#333;font-size:18px;font-weight:700">Uso de Cookies</h4>
+      <p style="margin:0;color:#666;font-size:14px;line-height:1.5">
+        Utilizamos cookies para mejorar tu experiencia de navegación, recordar tus preferencias y analizar el tráfico del sitio. 
+        Al hacer clic en "Aceptar", aceptas el uso de todas las cookies.
+      </p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <button onclick="acceptCookies()" style="padding:12px 24px;background:#4CAF50;color:white;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:14px;transition:0.2s">
+        Aceptar
+      </button>
+      <button onclick="rejectCookies()" style="padding:12px 24px;background:#f5f5f5;color:#666;border:1px solid #ddd;border-radius:8px;font-weight:600;cursor:pointer;font-size:14px;transition:0.2s">
+        Rechazar
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Mostrar notificación de cookies si no se ha aceptado
+window.addEventListener('DOMContentLoaded', function() {
+  const cookieAccepted = localStorage.getItem('cookiesAccepted');
+  if (!cookieAccepted) {
+    const notice = document.getElementById('cookieNotice');
+    if (notice) {
+      notice.style.display = 'block';
+    }
+  }
+});
+
+function acceptCookies() {
+  localStorage.setItem('cookiesAccepted', 'true');
+  const notice = document.getElementById('cookieNotice');
+  if (notice) {
+    notice.style.display = 'none';
+  }
+}
+
+function rejectCookies() {
+  localStorage.setItem('cookiesAccepted', 'false');
+  const notice = document.getElementById('cookieNotice');
+  if (notice) {
+    notice.style.display = 'none';
+  }
+}
+</script>

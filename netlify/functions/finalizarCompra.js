@@ -101,11 +101,11 @@ export async function handler(event) {
       descuentoPorcentaje = descuentoMaximo;
     }
     
-    // Fórmula de puntos ganados: base 20 + (precio total * 0.5) + (cantidad * 10)
-    // Máximo 500 puntos
-    let puntosGanados = Math.floor(20 + (totalPrecio * 0.5) + (cantidadProductos * 10));
-    if (puntosGanados > 500) puntosGanados = 500;
-    if (puntosGanados < 20) puntosGanados = 20;
+    // Nueva fórmula de puntos ganados: base 30 + (precio total * 1) + (cantidad * 15)
+    // Máximo 1000 puntos por compra
+    let puntosGanados = Math.floor(30 + (totalPrecio * 1) + (cantidadProductos * 15));
+    if (puntosGanados > 1000) puntosGanados = 1000;
+    if (puntosGanados < 30) puntosGanados = 30;
     
     // Calcular puntos finales: actuales - usados + ganados
     const puntosFinales = Math.max(0, puntosActuales - puntosUsados + puntosGanados);

@@ -27,7 +27,7 @@
       <img src="img/person.png" alt="Usuario">
     </button>
     <button id="favoritosBtn" class="btn-icon" style="position:relative">
-       ❤️ Favoritos
+       Favoritos
     </button>
     <button id="cartBtn" class="btn-icon" style="position:relative">
        🛒 Carrito
@@ -45,9 +45,17 @@
     <h3>Iniciar sesión</h3>
     <div id="loginMsg" class="muted"></div>
     <form id="loginForm">
-      <div class="field"><input id="loginEmail" type="email" required><label for="loginEmail">Correo</label></div>
-      <div class="field"><input id="loginPassword" type="password" required><label for="loginPassword">Contraseña</label></div>
-      <div class="field"><button class="btn" type="submit">Entrar</button></div>
+      <div class="field">
+        <input id="loginEmail" type="email" required>
+        <label for="loginEmail">Correo</label>
+      </div>
+      <div class="field">
+        <input id="loginPassword" type="password" required>
+        <label for="loginPassword">Contraseña</label>
+      </div>
+      <div class="field">
+        <button class="btn" type="submit">Entrar</button>
+      </div>
     </form>
     <div class="switch">¿No tienes cuenta? <button id="toRegister">Crear cuenta</button></div>
   </div>
@@ -60,12 +68,29 @@
     <h3>Crear cuenta</h3>
     <div id="regMsg" class="muted"></div>
     <form id="registerForm">
-      <div class="field"><input id="regName" type="text" required><label for="regName">Nombre completo</label></div>
-      <div class="field"><input id="regEmail" type="email" required><label for="regEmail">Correo</label></div>
-      <div class="field"><input id="regPassword" type="password" required><label for="regPassword">Contraseña</label></div>
-      <div class="field"><input id="regConfirmPassword" type="password" required><label for="regConfirmPassword">Repetir Contraseña</label></div>
-      <div class="field"><input id="regBirth" type="date" required><label for="regBirth">Fecha de nacimiento</label></div>
-      <div class="field"><button class="btn" type="submit">Crear cuenta</button></div>
+      <div class="field">
+        <input id="regName" type="text" required>
+        <label for="regName">Nombre completo</label>
+      </div>
+      <div class="field">
+        <input id="regEmail" type="email" required>
+        <label for="regEmail">Correo</label>
+      </div>
+      <div class="field">
+        <input id="regPassword" type="password" required>
+        <label for="regPassword">Contraseña</label>
+      </div>
+      <div class="field">
+        <input id="regConfirmPassword" type="password" required>
+        <label for="regConfirmPassword">Repetir Contraseña</label>
+      </div>
+      <div class="field">
+        <input id="regBirth" type="date" required>
+        <label for="regBirth">Fecha de nacimiento</label>
+      </div>
+      <div class="field">
+        <button class="btn" type="submit">Crear cuenta</button>
+      </div>
     </form>
     <div class="switch">¿Ya tienes cuenta? <button id="toLogin">Iniciar sesión</button></div>
   </div>
@@ -80,10 +105,10 @@
     <!-- Pestañas -->
     <div style="display:flex;gap:10px;margin-bottom:20px;border-bottom:2px solid #f0f0f0">
       <button class="profile-tab active" data-tab="info" style="flex:1;padding:12px;border:none;background:transparent;cursor:pointer;font-weight:600;color:#666;border-bottom:3px solid transparent;transition:0.2s">
-        👤 Información
+        Información
       </button>
       <button class="profile-tab" data-tab="pedidos" style="flex:1;padding:12px;border:none;background:transparent;cursor:pointer;font-weight:600;color:#666;border-bottom:3px solid transparent;transition:0.2s">
-        📦 Pedidos
+        Pedidos
       </button>
     </div>
     
@@ -94,7 +119,7 @@
       <div class="info">Fecha de nacimiento: <span id="userBirth"></span></div>
       <div class="info highlight">Pedidos completados: <span id="userPedidos"></span></div>
       <div class="info" style="background:#E8F5E9;padding:12px;border-radius:8px;margin-top:12px">
-        <span style="color:#2E7D32;font-weight:600;font-size:16px">⭐ Puntos: <span id="userPuntos">0</span></span>
+        <span style="color:#2E7D32;font-weight:600;font-size:16px">Puntos: <span id="userPuntos">0</span></span>
         <br>
         <small style="color:#666;margin-top:6px;display:block">Descuento disponible: <span id="userDescuento" style="font-weight:600;color:#FF9EB4;font-size:14px">0%</span></small>
       </div>
@@ -110,10 +135,10 @@
     <!-- Botones siempre visibles -->
     <div style="margin-top:24px;padding-top:20px;border-top:2px solid #f0f0f0">
       <div class="field">
-        <button class="btn ghost" id="openChangePass" style="width:100%">🔒 Cambiar contraseña</button>
+        <button class="btn ghost" id="openChangePass" style="width:100%">Cambiar contraseña</button>
       </div>
       <div class="field">
-        <button class="btn logout" id="logoutBtn" style="width:100%">🚪 Cerrar sesión</button>
+        <button class="btn logout" id="logoutBtn" style="width:100%">Cerrar sesión</button>
       </div>
     </div>
   </div>
@@ -179,7 +204,7 @@
       <!-- Switch: Usar datos guardados -->
       <div style="display:flex;justify-content:space-between;align-items:center;background:white;padding:16px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
         <div>
-          <strong style="color:#2E7D32;font-size:17px;font-weight:700">📋 Usar datos guardados</strong>
+          <strong style="color:#2E7D32;font-size:17px;font-weight:700">Usar datos guardados</strong>
           <br>
           <small style="color:#666;font-size:13px">Cargar mis datos de envío anteriores</small>
         </div>
@@ -192,7 +217,7 @@
       <!-- Switch: Guardar datos -->
       <div style="display:flex;justify-content:space-between;align-items:center;background:white;padding:16px;border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
         <div>
-          <strong style="color:#2E7D32;font-size:17px;font-weight:700">💾 Guardar datos</strong>
+          <strong style="color:#2E7D32;font-size:17px;font-weight:700">Guardar datos</strong>
           <br>
           <small style="color:#666;font-size:13px">Guardar para futuras compras</small>
         </div>
@@ -285,3 +310,45 @@
     </form>
   </div>
 </div>
+
+
+<!-- NOTIFICACIÓN DE COOKIES -->
+<div id="cookieNotice" style="display:none;position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:3px solid #FF9EB4;padding:20px;box-shadow:0 -4px 12px rgba(0,0,0,0.15);z-index:10000">
+  <div style="max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap">
+    <div style="flex:1;min-width:300px">
+      <h4 style="margin:0 0 8px 0;color:#333;font-size:18px">Uso de Cookies</h4>
+      <p style="margin:0;color:#666;font-size:14px;line-height:1.5">
+        Utilizamos cookies para mejorar tu experiencia de navegación, recordar tus preferencias y analizar el tráfico del sitio. 
+        Al hacer clic en "Aceptar", aceptas el uso de todas las cookies.
+      </p>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <button onclick="acceptCookies()" style="padding:12px 24px;background:#4CAF50;color:white;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:14px">
+        Aceptar
+      </button>
+      <button onclick="rejectCookies()" style="padding:12px 24px;background:#f5f5f5;color:#666;border:1px solid #ddd;border-radius:8px;font-weight:600;cursor:pointer;font-size:14px">
+        Rechazar
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+// Mostrar notificación de cookies si no se ha aceptado
+window.addEventListener('DOMContentLoaded', function() {
+  const cookieAccepted = localStorage.getItem('cookiesAccepted');
+  if (!cookieAccepted) {
+    document.getElementById('cookieNotice').style.display = 'block';
+  }
+});
+
+function acceptCookies() {
+  localStorage.setItem('cookiesAccepted', 'true');
+  document.getElementById('cookieNotice').style.display = 'none';
+}
+
+function rejectCookies() {
+  localStorage.setItem('cookiesAccepted', 'false');
+  document.getElementById('cookieNotice').style.display = 'none';
+}
+</script>

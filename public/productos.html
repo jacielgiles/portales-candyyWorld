@@ -13,6 +13,50 @@
   max-width: 1400px;
   margin: 28px auto;
   padding: 0 16px;
+  position: relative;
+}
+
+.btn-open-filters {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
+  background: #FF9EB4;
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 156, 180, 0.4);
+  transition: all 0.3s ease;
+  font-family: var(--font-main);
+}
+
+.btn-open-filters:hover {
+  background: #FF8AA8;
+  transform: scale(1.05);
+  box-shadow: 0 6px 16px rgba(255, 156, 180, 0.6);
+}
+
+.filters-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.filters-overlay.active {
+  display: block;
+  opacity: 1;
 }
 
 .sidebar-filters {
@@ -23,6 +67,58 @@
   height: fit-content;
   position: sticky;
   top: 20px;
+  transition: transform 0.3s ease;
+}
+
+.filters-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn-close-filters {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 32px;
+  color: #999;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.btn-close-filters:hover {
+  color: #FF9EB4;
+}
+
+.filter-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-apply-filters {
+  display: none;
+  width: 100%;
+  padding: 12px;
+  background: #FF9EB4;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-family: var(--font-main);
+}
+
+.btn-apply-filters:hover {
+  background: #FF8AA8;
 }
 
 .sidebar-filters h3 {
@@ -184,9 +280,39 @@
     gap: 20px;
   }
   
+  .btn-open-filters {
+    display: block;
+  }
+  
   .sidebar-filters {
-    position: static;
-    margin-bottom: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 300px;
+    max-width: 85%;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1001;
+    border-radius: 0;
+    transform: translateX(-100%);
+    box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .sidebar-filters.active {
+    transform: translateX(0);
+  }
+  
+  .btn-close-filters {
+    display: block;
+  }
+  
+  .btn-apply-filters {
+    display: block;
+  }
+  
+  .filters-header h3 {
+    margin: 0;
   }
   
   .products-grid {
@@ -206,6 +332,10 @@
   
   .filter-section h4 {
     font-size: 13px;
+  }
+  
+  .sidebar-filters {
+    width: 280px;
   }
 }
 </style>
@@ -463,8 +593,19 @@
 <div id="notification" class="notification"></div>
 
 <div class="main-content-productos">
-  <aside class="sidebar-filters">
-    <h3>Filtros</h3>
+  <!-- Botón para abrir filtros en móvil -->
+  <button class="btn-open-filters" id="openFiltersBtn" onclick="openFilters()">
+    🔍 Filtros
+  </button>
+  
+  <!-- Overlay para cerrar filtros en móvil -->
+  <div class="filters-overlay" id="filtersOverlay" onclick="closeFilters()"></div>
+  
+  <aside class="sidebar-filters" id="sidebarFilters">
+    <div class="filters-header">
+      <h3>Filtros</h3>
+      <button class="btn-close-filters" id="closeFiltersBtn" onclick="closeFilters()">&times;</button>
+    </div>
     
     <div class="filter-section">
       <h4>Categoría</h4>
@@ -479,6 +620,11 @@
     <div class="filter-section">
       <h4>Marca</h4>
       <div id="filterMarca"></div>
+    </div>
+    
+    <div class="filter-section">
+      <h4>País</h4>
+      <div id="filterPais"></div>
     </div>
     
     <div class="filter-section">
@@ -505,7 +651,10 @@
       </select>
     </div>
     
-    <button class="btn-clear-filters" onclick="clearFilters()">Limpiar Filtros</button>
+    <div class="filter-actions">
+      <button class="btn-clear-filters" onclick="clearFilters()">Limpiar Filtros</button>
+      <button class="btn-apply-filters" onclick="applyFiltersAndClose()">Aplicar Filtros</button>
+    </div>
   </aside>
   
   <div class="content-area-productos">
@@ -521,6 +670,8 @@ const urlParams = new URLSearchParams(window.location.search);
 const searchQuery = urlParams.get('search');
 const categoria = urlParams.get('categoria');
 const sabor = urlParams.get('sabor');
+const pais = urlParams.get('pais');
+const marca = urlParams.get('marca');
 
 let allProducts = [];
 let filteredProducts = [];
@@ -562,6 +713,24 @@ async function loadProducts() {
           applyFilters();
         }
       }, 100);
+    } else if (pais) {
+      // Marcar país en filtros
+      setTimeout(() => {
+        const checkbox = document.querySelector(`#filterPais input[value="${pais}"]`);
+        if (checkbox) {
+          checkbox.checked = true;
+          applyFilters();
+        }
+      }, 100);
+    } else if (marca) {
+      // Marcar marca en filtros
+      setTimeout(() => {
+        const checkbox = document.querySelector(`#filterMarca input[value="${marca}"]`);
+        if (checkbox) {
+          checkbox.checked = true;
+          applyFilters();
+        }
+      }, 100);
     } else {
       displayProducts(allProducts);
     }
@@ -573,10 +742,11 @@ async function loadProducts() {
 }
 
 function loadFilters() {
-  // Obtener categorías, sabores y marcas únicos
+  // Obtener categorías, sabores, marcas y países únicos
   const categorias = [...new Set(allProducts.map(p => p.categoria))];
   const sabores = [...new Set(allProducts.map(p => p.sabor))];
   const marcas = [...new Set(allProducts.map(p => p.marca).filter(m => m))];
+  const paises = [...new Set(allProducts.map(p => p.pais).filter(p => p))];
   
   // Cargar filtro de categorías
   const filterCategoria = document.getElementById('filterCategoria');
@@ -605,6 +775,15 @@ function loadFilters() {
     </label>
   `).join('');
   
+  // Cargar filtro de países
+  const filterPais = document.getElementById('filterPais');
+  filterPais.innerHTML = paises.map(pais => `
+    <label>
+      <input type="checkbox" value="${pais}" onchange="applyFilters()">
+      ${pais}
+    </label>
+  `).join('');
+  
   // Configurar inputs de precio
   const minPriceInput = document.getElementById('minPrice');
   const maxPriceInput = document.getElementById('maxPrice');
@@ -626,6 +805,7 @@ function applyFilters() {
   const selectedCategorias = Array.from(document.querySelectorAll('#filterCategoria input:checked')).map(cb => cb.value);
   const selectedSabores = Array.from(document.querySelectorAll('#filterSabor input:checked')).map(cb => cb.value);
   const selectedMarcas = Array.from(document.querySelectorAll('#filterMarca input:checked')).map(cb => cb.value);
+  const selectedPaises = Array.from(document.querySelectorAll('#filterPais input:checked')).map(cb => cb.value);
   const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
   const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
   const sortBy = document.getElementById('sortBy').value;
@@ -633,12 +813,13 @@ function applyFilters() {
   // Filtrar productos
   filteredProducts = allProducts.filter(prod => {
     const matchCategoria = selectedCategorias.length === 0 || selectedCategorias.includes(prod.categoria);
+    const matchPais = selectedPaises.length === 0 || selectedPaises.includes(prod.pais);
     const matchSabor = selectedSabores.length === 0 || selectedSabores.includes(prod.sabor);
     const matchMarca = selectedMarcas.length === 0 || selectedMarcas.includes(prod.marca);
     const precio = parseFloat(prod.precio);
     const matchPrice = precio >= minPrice && precio <= maxPrice;
     
-    return matchCategoria && matchSabor && matchMarca && matchPrice;
+    return matchCategoria && matchSabor && matchMarca && matchPais && matchPrice;
   });
   
   // Ordenar productos
@@ -662,12 +843,14 @@ function updateFilterInfo() {
   const selectedCategorias = Array.from(document.querySelectorAll('#filterCategoria input:checked')).map(cb => cb.value);
   const selectedSabores = Array.from(document.querySelectorAll('#filterSabor input:checked')).map(cb => cb.value);
   const selectedMarcas = Array.from(document.querySelectorAll('#filterMarca input:checked')).map(cb => cb.value);
+  const selectedPaises = Array.from(document.querySelectorAll('#filterPais input:checked')).map(cb => cb.value);
   
-  if (selectedCategorias.length > 0 || selectedSabores.length > 0 || selectedMarcas.length > 0) {
+  if (selectedCategorias.length > 0 || selectedSabores.length > 0 || selectedMarcas.length > 0 || selectedPaises.length > 0) {
     let infoText = '';
     if (selectedCategorias.length > 0) infoText += `Categorías: ${selectedCategorias.join(', ')}`;
     if (selectedSabores.length > 0) infoText += (infoText ? ' | ' : '') + `Sabores: ${selectedSabores.join(', ')}`;
     if (selectedMarcas.length > 0) infoText += (infoText ? ' | ' : '') + `Marcas: ${selectedMarcas.join(', ')}`;
+    if (selectedPaises.length > 0) infoText += (infoText ? ' | ' : '') + `Países: ${selectedPaises.join(', ')}`;
     filterInfo.textContent = infoText;
     filterInfo.classList.remove('hidden');
   } else {
@@ -677,7 +860,7 @@ function updateFilterInfo() {
 
 function clearFilters() {
   // Limpiar checkboxes
-  document.querySelectorAll('#filterCategoria input, #filterSabor input, #filterMarca input').forEach(cb => cb.checked = false);
+  document.querySelectorAll('#filterCategoria input, #filterSabor input, #filterMarca input, #filterPais input').forEach(cb => cb.checked = false);
   
   // Resetear precio
   const maxPrice = Math.max(...allProducts.map(p => parseFloat(p.precio)));
@@ -689,6 +872,28 @@ function clearFilters() {
   
   // Aplicar filtros (mostrar todos)
   applyFilters();
+}
+
+// Funciones para abrir/cerrar filtros en móvil
+function openFilters() {
+  const sidebar = document.getElementById('sidebarFilters');
+  const overlay = document.getElementById('filtersOverlay');
+  sidebar.classList.add('active');
+  overlay.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeFilters() {
+  const sidebar = document.getElementById('sidebarFilters');
+  const overlay = document.getElementById('filtersOverlay');
+  sidebar.classList.remove('active');
+  overlay.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+function applyFiltersAndClose() {
+  applyFilters();
+  closeFilters();
 }
 
 function filterBySearch(query) {
@@ -774,6 +979,9 @@ function showNotification(message, type = 'success') {
 
 loadProducts();
 </script>
+
+<!-- Script de Cookies -->
+<script src="cookies.js"></script>
 
 </body>
 </html>

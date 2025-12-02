@@ -177,10 +177,10 @@ async function addOneToCart(productId){
 
 // Calcular descuento por puntos
 function calcularDescuento(puntos) {
-  // Fórmula: 1% de descuento por cada 100 puntos
-  // Máximo 20% de descuento
-  let descuento = Math.floor(puntos / 100);
-  if (descuento > 20) descuento = 20;
+  // Nuevo sistema: 1 punto = 0.5% descuento
+  // Máximo 45% de descuento (90 puntos)
+  let descuento = Math.floor(puntos * 0.5);
+  if (descuento > 45) descuento = 45;
   return descuento;
 }
 
@@ -277,18 +277,18 @@ async function finalizarCompra(){
     }
     
     resumenSection.innerHTML = `
-      <h4 style="margin:0 0 12px 0;color:#FF9EB4;font-size:18px">📊 Resumen de Compra</h4>
+      <h4 style="margin:0 0 12px 0;color:#FF9EB4;font-size:18px">Resumen de Compra</h4>
       <div style="display:flex;justify-content:space-between;margin-bottom:8px">
         <span>Subtotal:</span>
         <strong>$${total.toFixed(2)}</strong>
       </div>
       <div style="display:flex;justify-content:space-between;margin-bottom:8px;color:#4CAF50">
-        <span>🎁 Tus puntos actuales:</span>
+        <span>Tus puntos actuales:</span>
         <strong>${puntosActuales} pts</strong>
       </div>
       ${descuentoPorcentaje > 0 ? `
         <div style="display:flex;justify-content:space-between;margin-bottom:8px;color:#FF9EB4">
-          <span>💰 Descuento (${descuentoPorcentaje}%):</span>
+          <span>Descuento (${descuentoPorcentaje}%):</span>
           <strong>-$${descuentoMonto.toFixed(2)}</strong>
         </div>
       ` : ''}
@@ -297,7 +297,7 @@ async function finalizarCompra(){
         <strong style="color:#FF9EB4">$${totalConDescuento.toFixed(2)}</strong>
       </div>
       <div style="background:#E8F5E9;padding:12px;border-radius:6px;text-align:center">
-        <span style="color:#2E7D32;font-weight:600">⭐ Ganarás ${puntosGanados} puntos con esta compra</span>
+        <span style="color:#2E7D32;font-weight:600">Ganarás ${puntosGanados} puntos con esta compra</span>
         <br>
         <small style="color:#666">Acumula puntos para obtener descuentos en futuras compras</small>
       </div>
@@ -327,8 +327,8 @@ async function verPedidos(){
     '<div class="empty-cart">No tienes pedidos</div>' :
     pedidos.map(p => {
       const estado = p.entregado ? 
-        '<span style="background:#D4EDDA;color:#155724;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600">✓ Entregado</span>' : 
-        '<span style="background:#FFF3CD;color:#856404;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600">⏱ Pendiente</span>';
+        '<span style="background:#D4EDDA;color:#155724;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600">Entregado</span>' : 
+        '<span style="background:#FFF3CD;color:#856404;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600">Pendiente</span>';
       
       const fecha = new Date(p.fecha).toLocaleDateString('es-MX');
       const numProductos = p.productos.length;
@@ -434,8 +434,9 @@ async function procesarCompra(){
       const userPuntos = document.getElementById('userPuntos');
       if (userPuntos) {
         userPuntos.textContent = currentUser.puntos;
-        const descuento = Math.floor(currentUser.puntos / 100);
-        const descuentoMax = descuento > 20 ? 20 : descuento;
+        // Nuevo sistema: 1 punto = 0.5% descuento, máximo 45%
+        const descuento = Math.floor(currentUser.puntos * 0.5);
+        const descuentoMax = descuento > 45 ? 45 : descuento;
         const userDescuento = document.getElementById('userDescuento');
         if (userDescuento) {
           userDescuento.textContent = descuentoMax + '%';
@@ -612,8 +613,8 @@ async function mostrarPedidosEnPerfil() {
   
   const pedidosHTML = pedidos.map(p => {
     const estado = p.entregado ? 
-      '<span style="background:#D4EDDA;color:#155724;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600">✓ Entregado</span>' : 
-      '<span style="background:#FFF3CD;color:#856404;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600">⏱ Pendiente</span>';
+      '<span style="background:#D4EDDA;color:#155724;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600">Entregado</span>' : 
+      '<span style="background:#FFF3CD;color:#856404;padding:6px 12px;border-radius:20px;font-size:12px;font-weight:600">Pendiente</span>';
     
     const fecha = new Date(p.fecha).toLocaleDateString('es-MX');
     const numProductos = p.productos.length;
@@ -629,8 +630,8 @@ async function mostrarPedidosEnPerfil() {
           <div>${estado}</div>
         </div>
         <div style="color:#666;font-size:14px">
-          📦 ${numProductos} producto(s)
-          ${p.direccion ? `<br>📍 ${p.ciudad}, ${p.estado}` : ''}
+          ${numProductos} producto(s)
+          ${p.direccion ? `<br>${p.ciudad}, ${p.estado}` : ''}
         </div>
       </div>
     `;

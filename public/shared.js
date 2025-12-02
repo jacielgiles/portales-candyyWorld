@@ -77,7 +77,7 @@ function setUserUI(user) {
         adminBtn = document.createElement('button');
         adminBtn.id = 'addProductBtn';
         adminBtn.className = 'btn';
-        adminBtn.textContent = '🛠️ Panel de Administración';
+        adminBtn.textContent = 'Panel de Administración';
         adminBtn.style.marginTop = '10px';
         adminBtn.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
         adminBtn.style.color = 'white';
@@ -293,7 +293,7 @@ loginForm.addEventListener('submit', async e => {
     currentUser = data.user;
     setUserUI(currentUser);
     hide(loginModal);
-    showNotification(`¡Bienvenido ${data.user.name}! 🎉`, 'success');
+    showNotification(`¡Bienvenido ${data.user.name}!`, 'success');
   } catch (err) {
     loginMsg.textContent = 'Error de conexión';
   }
@@ -322,7 +322,7 @@ registerForm.addEventListener('submit', async e => {
     currentUser = data.user;
     setUserUI(currentUser);
     hide(registerModal);
-    showNotification(`¡Cuenta creada exitosamente! Bienvenido ${data.user.name} 🎉`, 'success');
+    showNotification(`¡Cuenta creada exitosamente! Bienvenido ${data.user.name}`, 'success');
   } catch (err) { regMsg.textContent = 'Error de conexión' }
 });
 
@@ -335,7 +335,7 @@ confirmLogout.addEventListener('click', () => {
   currentUser = null;
   setUserUI(currentUser);
   hide(logoutConfirmModal);
-  showNotification(`¡Hasta pronto ${userName}! 👋`, 'success');
+  showNotification(`¡Hasta pronto ${userName}!`, 'success');
 });
 
 // CAMBIAR CONTRASEÑA

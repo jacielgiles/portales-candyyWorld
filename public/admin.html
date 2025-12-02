@@ -39,24 +39,25 @@ body{background:#f4f6f8}
   </div>
   
   <div style="flex:1;text-align:center">
-    <h2 style="color:#FF9EB4;margin:0">🛠️ Panel de Administración</h2>
+    <h2 style="color:#FF9EB4;margin:0">Panel de Administración</h2>
   </div>
   
   <nav class="nav">
     <button class="btn-icon" onclick="window.location.href='index.html'" style="background:#FF9EB4;color:white;padding:10px 20px;border-radius:8px;font-weight:600;transition:0.2s" onmouseover="this.style.background='#FF8AA8'" onmouseout="this.style.background='#FF9EB4'">
-      🏠 Volver al Inicio
+      Volver al Inicio
     </button>
   </nav>
 </header>
 
 <div class="admin-container">
   <div class="admin-header">
-    <h1>🛠️ Panel de Administración</h1>
+    <h1>Panel de Administración</h1>
     <p>Bienvenido, Admin</p>
   </div>
 
   <div class="tabs">
     <button class="tab-btn active" onclick="switchTab('productos')">Añadir Producto</button>
+    <button class="tab-btn" onclick="switchTab('editar')">Editar Productos</button>
     <button class="tab-btn" onclick="switchTab('usuarios')">Usuarios</button>
     <button class="tab-btn" onclick="switchTab('pedidos')">Pedidos</button>
     <button class="tab-btn" onclick="switchTab('eliminar')">Eliminar Productos</button>
@@ -123,6 +124,76 @@ body{background:#f4f6f8}
       </div>
 
       <button type="submit" class="btn">Agregar Producto</button>
+    </form>
+  </div>
+
+  <!-- Tab: Editar Productos -->
+  <div id="tab-editar" class="tab-content">
+    <h2>Editar Producto</h2>
+    
+    <div style="margin-bottom:24px;background:#f9f9f9;padding:20px;border-radius:8px">
+      <label style="display:block;margin-bottom:10px;font-weight:600;color:#333">Selecciona un producto para editar:</label>
+      <select id="editProductSelect" onchange="loadProductToEdit()" style="width:100%;padding:14px;border-radius:8px;border:2px solid #e0e0e0;font-size:15px;font-weight:500;cursor:pointer">
+        <option value="">-- Selecciona un producto --</option>
+      </select>
+    </div>
+    
+    <form id="editProductForm" style="display:none">
+      <input type="hidden" id="editProductId">
+      
+      <div class="field" style="position:relative;margin-bottom:20px">
+        <label for="editCategoria" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block">Categoría *</label>
+        <input type="text" id="editCategoria" required style="margin-top:0">
+      </div>
+      
+      <div class="field" style="position:relative;margin-bottom:20px">
+        <label for="editNombre" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block">Nombre *</label>
+        <input type="text" id="editNombre" required style="margin-top:0">
+      </div>
+      
+      <div class="field" style="position:relative;margin-bottom:20px">
+        <label for="editImagen" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block">Imagen (URL) *</label>
+        <input type="url" id="editImagen" required style="margin-top:0">
+      </div>
+      
+      <div class="field" style="position:relative;margin-bottom:20px">
+        <label for="editDescripcion" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block">Descripción *</label>
+        <textarea id="editDescripcion" rows="3" required style="margin-top:0"></textarea>
+      </div>
+      
+      <div class="row">
+        <div class="field" style="position:relative;margin-bottom:20px">
+          <label for="editStock" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block">Stock *</label>
+          <input type="number" id="editStock" required style="margin-top:0">
+        </div>
+        <div class="field" style="position:relative;margin-bottom:20px">
+          <label for="editPrecio" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block">Precio *</label>
+          <input type="number" id="editPrecio" step="0.01" required style="margin-top:0">
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="field" style="position:relative;margin-bottom:20px">
+          <label for="editPais" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block">País</label>
+          <input type="text" id="editPais" style="margin-top:0">
+        </div>
+        <div class="field" style="position:relative;margin-bottom:20px">
+          <label for="editCantidad" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block">Cantidad</label>
+          <input type="text" id="editCantidad" style="margin-top:0">
+        </div>
+      </div>
+      
+      <div class="field" style="position:relative;margin-bottom:20px">
+        <label for="editSabor" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block">Sabor</label>
+        <input type="text" id="editSabor" style="margin-top:0">
+      </div>
+      
+      <div class="field" style="position:relative;margin-bottom:20px">
+        <label for="editMarca" style="position:static;transform:none;font-size:14px;font-weight:600;color:#333;margin-bottom:6px;display:block">Marca *</label>
+        <input type="text" id="editMarca" required style="margin-top:0">
+      </div>
+      
+      <button type="submit" class="btn" style="background:#FFA726">Guardar Cambios</button>
     </form>
   </div>
 
@@ -467,6 +538,9 @@ function showNotification(message, type = 'success') {
   }, 3000);
 }
 </script>
+
+<!-- Script para editar productos -->
+<script src="admin-edit.js"></script>
 
 </body>
 </html>
